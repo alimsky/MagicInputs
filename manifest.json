@@ -1,0 +1,15 @@
+{
+ "name": "Magic Inputs Filler", // Название расширения
+ "version": "0.1", // Номер версии
+ "description": "This extension allows you to fill up all the inputs on the page, including selects, dropdowns and so on.", // Описание расширения
+
+ "permissions": [
+  "tabs" // Разрешить расширению работать с вкладками
+ ],
+
+ "browser_action": { // Элементы браузера
+  "default_title": "Hubble", // Название кнопки
+  "default_icon": "images/icon.png" // Иконка для кнопки
+ }
+}
+
