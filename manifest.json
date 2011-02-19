@@ -1,15 +1,23 @@
 {
- "name": "Magic Inputs Filler", // Название расширения
- "version": "0.1", // Номер версии
- "description": "This extension allows you to fill up all the inputs on the page, including selects, dropdowns and so on.", // Описание расширения
+	"name": "Magic Inputs Autofill",
+	"version": "0.1",
+	"description": "This extension allows you to fill up all the inputs on the page, including selects, dropdowns and so on.",
+	"icons": { "16": "images/icon16.png",
+						 "48": "images/icon48.png",
+						"128": "images/icon128.png" },
+	"browser_action": {
+		"default_icon": "images/button.png",
+		"default_title": "Fill the inputs"
+	},
 
- "permissions": [
-  "tabs" // Разрешить расширению работать с вкладками
- ],
+  "background_page": "background.html",
 
- "browser_action": { // Элементы браузера
-  "default_title": "Hubble", // Название кнопки
-  "default_icon": "images/icon.png" // Иконка для кнопки
- }
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["magicfill.js"]
+    }
+  ],
+  "minimum_chrome_version": "5.0"
 }
 
