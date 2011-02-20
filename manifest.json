@@ -12,12 +12,10 @@
 
   "background_page": "background.html",
 
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["magicfill.js"]
-    }
-  ],
+	"permissions": [
+		"tabs", "*://*/*"
+	],
+
   "minimum_chrome_version": "5.0"
 }
 
