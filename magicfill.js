@@ -3,7 +3,7 @@
 function valueGenerator(){
 		//Some hardcoded data... TODO:Drop it to options.html
 		this.EMAIL=['mail'];
-		this.NUMBER=['numb', 'integer', 'price', 'size', 'val'];
+		this.NUMBER=['numb', 'integer', 'price', 'size', 'val', 'code'];
 		this.EMAIL_HOSTING=['gmail.com','hotmail.com','yahoo.com','mail.ru'];
 		this.CONSONANTS=['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh', 'fr','q'];
 		this.VOWELS=['a','e','i','o','u','y', 'oo', 'ou', 'ae', 'ea'];
@@ -56,8 +56,7 @@ function valueGenerator(){
 
 		//Select random option in dropdown... but it works weird. TODO:Look into it.
 		this.selectValue=function(select_control){
-				rVal = Math.floor(Math.random()*(select_control.options.length));
-				console.log(rVal);
+				rVal = Math.floor(Math.random()*(select_control.options.length-1))+1;
  				select_control.selectedIndex = rVal;
 		};
 
