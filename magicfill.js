@@ -42,23 +42,52 @@ this.generatePhrase=function(lngth){
 		}
 		return resultPhrase;
 };
+
+this.EMAIL_HOSTING=['gmail.com','hotmail.com','yahoo.com','mail.ru'];
+this.generateEmail=function(){
+		return this.generateWord()+'@'+this.EMAIL_HOSTING[Math.floor(Math.random()*this.EMAIL_HOSTING.length)];
+}
+
 this.selectValue=function(select_control){
 	select_control.selectedIndex = Math.floor(Math.random()*(select_control.options.length+1));
 };
 this.checkValue=function(checkbox){
 	checkbox.checked = (Math.random()>0.5)?'checked':'';
 };
+
+this.EMAIL=['mail'];
+this.NUMBER=['numb', 'integer', 'price', 'size', 'val'];
+this.isAnyEqual=function(st, ar){
+	for (el in ar){
+		if(st.indexOf(ar[el])>0){
+			return 1;
+		}
+	}
+	return -1;
+}
+
+this.valueBasedOnType=function(inp){
+	q=inp.id+' '+inp.name+' '+inp.className;
+	if(isAnyEqual(q, this.EMAIL))
+		return this.generateEmail();
+	else if(isAnyEqual(q, this.NUMBER)
+		return Math.random()*10000;
+	else 
+		return this.generateWord();
+}
 }
 
 if(!window.vG) 
 	window.vG=new valueGenerator();
 
 
+
 //Find all the inputs, and operate with them
 el=document.getElementsByTagName('input');
 for(var i=0; i<el.length; i++) {
 	if(el(i).type=="text")
-		el(i).value=window.vG.generateWord();
+//		el(i).value=window.vG.generateWord();
+		el(i).value=vG.valueBasedOnType(el(i));
 	if(el(i).type=="pass")
 		el(i).value="123123";
 	if(el(i).type=="checkbox")
