@@ -13,11 +13,48 @@
 			-webkit-border-radius:50px;
 			-webkit-box-shadow: 0 1px 3px #777;
 			font:14px/1.2em 'Helvetica', Arial, Verdana;
-			width:500px;
+			width:400px;
+			color:#333;
 		}
 		h1 {
 			text-shadow: 0 -1px 1px #777;
 			color: #BBB;
+			line-height:48px;
+			margin-top:0;
+		}
+		icon {
+			margin-right:5px;
+			position:relative;
+			top:10px;
+			width:48px; height:48px;
+			background: url('images/icon48.png');
+			display:inline-block;
+		}
+		block{
+			margin-bottom:15px;
+			display:block;
+		}
+		block comment{
+			font-family:'Georgia', Arial, Verdana;
+			font-style:italic;
+			font-size:12px;
+			display:block;
+			margin: 5px 0;
+			color:#777;
+			padding: 0px 5px 0px 25px;
+			border-left: dotted 1px #ccc;
+		}
+		label{
+			display:inline-block;
+			width:130px;
+			font-size:12px;
+		}
+		input[type=text]{
+			-webkit-border-radius:3px;
+			width:200px;
+			border:solid 1px #eee;
+			-webkit-box-shadow: inset 0 1px 2px #aaa;
+			padding:5px;
 		}
 	</style>
 </head>
@@ -57,7 +94,15 @@ function restore_options() {
 </script>
 
 <body onload="restore_options()">
-<h1>Magic Inputs Options</h1>
+<h1><icon></icon>Magic Inputs Options</h1>
+
+<block>
+	<label>Default password:</label>
+	<input type="text" value="123123" />
+	<comment>If you would leave it empty, it will generate random word in the password fields as it would be the common text input.</comment>
+</block>
+
+
 Favorite Color:
 <select id="color">
  <option value="red">red</option>
