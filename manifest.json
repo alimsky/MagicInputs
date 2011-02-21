@@ -1,6 +1,6 @@
 {
 	"name": "Magic Inputs Autofill",
-	"version": "0.1",
+	"version": "0.2",
 	"description": "This extension allows you to fill up all the inputs on the page, including selects, dropdowns and so on.",
 	"icons": { "16": "images/icon16.png",
 						 "48": "images/icon48.png",

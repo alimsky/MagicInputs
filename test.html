@@ -2,11 +2,68 @@
 <html lang="en">
 <head>
   <title>Test for MagicFill</title>
-  <link rel="stylesheet" href="css/layout.css" type="text/css" />
   
+	<script src="magicfill.js"></script>
+	<style>
+		input,select{
+			display:block;
+			clear:both;
+			margin: 15px;
+		}
+		body{
+			width:24em;
+			margin:0 auto;
+		}
+		label{
+		float:left;
+		margin: 15px 0;
+		height:20px;
+		line-height:20px;
+		}
+		input[type=radio]{
+		float:left;
+		margin-right:0.5em;
+		height:20px;
+		line-height:20px;
+		}
+
+	</style>
 </head>
 <body>
-	<input type="text" class="required" />
+
+<input type="button" onclick="window.vG.scanTheDomAndMakeSomeMagic()" value="Fire!" />
+
+<input type="text" class="required" />
+
+<select id="param" name="just">
+	<option value="one">one</option>
+	<option value="etw">etw</option>
+	<option value="twe">twe</option>
+	<option value="twerj">twerj</option>
+	<option value="uwer">uwer</option>
+	<option value="vzv">vzv</option>
+	<option value="qqq">qqq</option>
+	<option value="wpwef">wpwef</option>
+</select>
+
+<input type="text" name="some_price" class="required" />
+<input type="text" id="your_mail" class="required" />
+<input type="text" class="required" />
+
+<input type="checkbox" name="ow_check" />
+<input type="checkbox" name="ow_check" />
+<input type="checkbox" name="ow_check" />
+<input type="checkbox" name="ow_check" />
+
+<input type="radio" name="rbt" value="rbt" />
+<label for="rbt" value="wow">Wow</label>
+<input type="radio" name="rbt" value="rbt2" />
+<label for="rbt" value="wow">Wow</label>
+<input type="radio" name="rbt" value="rbt" />
+<label for="rbt" value="wow">Wow</label>
+<input id="woww" type="radio" name="rbt" value="rbt" />
+<label for="rbt" value="wow">Wow</label>
+<input type="password" name="rbt" value="123123" />
 
 </body>
 </html>
