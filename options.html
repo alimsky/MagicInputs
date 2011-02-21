@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Magic Inputs Options page</title>
+	<style>
+		html{
+			background:url('images/options_background.jpg');
+		}
+		body{
+			padding:35px 45px;
+			background:#fff;
+			margin:50px auto;
+			-webkit-border-radius:50px;
+			-webkit-box-shadow: 0 1px 3px #777;
+			font:14px/1.2em 'Helvetica', Arial, Verdana;
+			width:500px;
+		}
+		h1 {
+			text-shadow: 0 -1px 1px #777;
+			color: #BBB;
+		}
+	</style>
+</head>
+
+<script type="text/javascript">
+
+// Saves options to localStorage.
+function save_options() {
+  var select = document.getElementById("color");
+  var color = select.children[select.selectedIndex].value;
+  localStorage["favorite_color"] = color;
+
+  // Update status to let user know options were saved.
+  var status = document.getElementById("status");
+  status.innerHTML = "Options Saved.";
+  setTimeout(function() {
+    status.innerHTML = "";
+  }, 750);
+}
+
+// Restores select box state to saved value from localStorage.
+function restore_options() {
+  var favorite = localStorage["favorite_color"];
+  if (!favorite) {
+    return;
+  }
+  var select = document.getElementById("color");
+  for (var i = 0; i < select.children.length; i++) {
+    var child = select.children[i];
+    if (child.value == favorite) {
+      child.selected = "true";
+      break;
+    }
+  }
+}
+
+</script>
+
+<body onload="restore_options()">
+<h1>Magic Inputs Options</h1>
+Favorite Color:
+<select id="color">
+ <option value="red">red</option>
+ <option value="green">green</option>
+ <option value="blue">blue</option>
+ <option value="yellow">yellow</option>
+</select>
+
+<br>
+<button onclick="save_options()">Save</button>
+</body>
+</html>
