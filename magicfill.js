@@ -1,12 +1,44 @@
 (function(){
 
 function valueGenerator(){
+		this.options={};
+
+		//Try to get option from localStorage (where options.html saves it's cookies) if there is no such there take default value.
+		//gO is shortcut for getOption to comfortable use in code.
+		this.gO=function(optionName, isNotArray){
+			if(localStorage[optionName]){
+				if(isItArray)
+					return localStorage[optionName].split(',');
+				else
+					return localStorage[optionName];
+			}
+
+			//No such options defined, use default
+			if(this.defaultOptions[optionName])
+				return this.defaultOptions[optionName];
+		}
+
+		//eto ya vines v otdelnuu funkciuu na vsyakiy pojarniy
+		this.setOption=function(option,value,storage){
+			storage[option]=value;
+		}
+
+		this.setHardcodedOptions=function(storage){
+				this.setOption('EMAIL',['mail'], storage);
+				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'val', 'code'], storage);
+				this.setOption('EMAIL_HOSTING',['gmail.com','hotmail.com','yahoo.com','mail.ru'], storage);
+				this.setOption('CONSONANTS',['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh', 'fr','q'], storage);
+				this.setOption('VOWELS',['a','e','i','o','u','y', 'oo', 'ou', 'ae', 'ea'], storage);
+				this.setOption('PASSWORD_DEF','123123', storage);
+		}
+
 		//Some hardcoded data... TODO:Drop it to options.html
 		this.EMAIL=['mail'];
 		this.NUMBER=['numb', 'integer', 'price', 'size', 'val', 'code'];
 		this.EMAIL_HOSTING=['gmail.com','hotmail.com','yahoo.com','mail.ru'];
 		this.CONSONANTS=['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh', 'fr','q'];
 		this.VOWELS=['a','e','i','o','u','y', 'oo', 'ou', 'ae', 'ea'];
+		this.PASSWORD_DEF='123123';
 
 		//generate word function
 		this.generateWord=function(lngth, firstLetterLower){
@@ -93,11 +125,13 @@ function valueGenerator(){
 
 		//Return random value based on id, class and name of input
 		this.valueBasedOnType=function(inp){
+			//generate full string
 			q=inp.id+' '+inp.name+' '+inp.className;
+			//choose type and generate
 			if(this.isAnyEqual(q, this.EMAIL))
 				return this.generateEmail();
 			else if(this.isAnyEqual(q, this.NUMBER))
-				return (Math.random()*10000);
+				return (Math.random()*10000); //TODO unhardcode
 			else 
 				return this.generateWord();
 		}
@@ -106,10 +140,13 @@ function valueGenerator(){
 				//Find all the inputs, and operate with them
 				el=document.getElementsByTagName('input');
 				for(var i in el) {
-					if(el[i].type=="text")
+					if((el[i].type=="text")||(el[i].type=="search"))
 						el[i].value=this.valueBasedOnType(el[i]);
 					else if(el[i].type=="password")
-						el[i].value="123123"; // TODO: unhardcode
+						if(this.PASSWORD_DEF)
+							el[i].value=this.PASSWORD_DEF;
+						else
+							el[i].value=this.generateWord();
 					else if(el[i].type=="checkbox")
 						this.checkValue(el[i]);
 					else if(el[i].type=="radio")
