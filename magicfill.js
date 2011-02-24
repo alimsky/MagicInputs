@@ -1,13 +1,19 @@
 (function(){
 
-function valueGenerator(){
-		this.options={};
+function magicInputsOptions(){
+
+		this.defaultOptions=[];
+
+		//eto ya vines v otdelnuu funkciuu na vsyakiy pojarniy
+		this.setOption=function(option,value,storage){
+			storage[option]=value;
+		}
 
 		//Try to get option from localStorage (where options.html saves it's cookies) if there is no such there take default value.
 		//gO is shortcut for getOption to comfortable use in code.
 		this.gO=function(optionName, isNotArray){
 			if(localStorage[optionName]){
-				if(isItArray)
+				if(!isNotArray)
 					return localStorage[optionName].split(',');
 				else
 					return localStorage[optionName];
@@ -18,27 +24,21 @@ function valueGenerator(){
 				return this.defaultOptions[optionName];
 		}
 
-		//eto ya vines v otdelnuu funkciuu na vsyakiy pojarniy
-		this.setOption=function(option,value,storage){
-			storage[option]=value;
-		}
-
 		this.setHardcodedOptions=function(storage){
 				this.setOption('EMAIL',['mail'], storage);
+				this.setOption('CONFIRM',['confirm'], storage);
 				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'val', 'code'], storage);
+				this.setOption('PASSWORD_DEF','123123', storage);
 				this.setOption('EMAIL_HOSTING',['gmail.com','hotmail.com','yahoo.com','mail.ru'], storage);
 				this.setOption('CONSONANTS',['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh', 'fr','q'], storage);
 				this.setOption('VOWELS',['a','e','i','o','u','y', 'oo', 'ou', 'ae', 'ea'], storage);
-				this.setOption('PASSWORD_DEF','123123', storage);
 		}
+		this.setHardcodedOptions(this.defaultOptions);
+}
 
-		//Some hardcoded data... TODO:Drop it to options.html
-		this.EMAIL=['mail'];
-		this.NUMBER=['numb', 'integer', 'price', 'size', 'val', 'code'];
-		this.EMAIL_HOSTING=['gmail.com','hotmail.com','yahoo.com','mail.ru'];
-		this.CONSONANTS=['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh', 'fr','q'];
-		this.VOWELS=['a','e','i','o','u','y', 'oo', 'ou', 'ae', 'ea'];
-		this.PASSWORD_DEF='123123';
+function valueGenerator(){
+
+		this.options=new magicInputsOptions();
 
 		//generate word function
 		this.generateWord=function(lngth, firstLetterLower){
@@ -52,7 +52,7 @@ function valueGenerator(){
 
 				//Too obvious to comment anything here
 				while (resultWord.length < lngth){
-						newSymbol = odd?this.CONSONANTS[Math.floor(Math.random()*this.CONSONANTS.length)]:this.VOWELS[Math.floor(Math.random()*this.VOWELS.length)];
+						newSymbol = odd?this.options.gO('CONSONANTS')[Math.floor(Math.random()*this.options.gO('CONSONANTS').length)]:this.options.gO('VOWELS')[Math.floor(Math.random()*this.options.gO('VOWELS').length)];
 						odd=!odd;
 						resultWord+=newSymbol;
 				}
@@ -73,6 +73,7 @@ function valueGenerator(){
 				for (var word=0; word<=lngth; word++){
 					if (word==lngth)
 						resultPhrase=resultPhrase + this.generateWord(null, true) + '.';
+
 					else if(word==1)
 						resultPhrase=this.generateWord()+' ';
 					else
@@ -83,7 +84,7 @@ function valueGenerator(){
 
 		//generate email with random word and random selected email_hosting
 		this.generateEmail=function(){
-				return this.generateWord(null, true)+'@'+this.EMAIL_HOSTING[Math.floor(Math.random()*this.EMAIL_HOSTING.length)];
+				return this.generateWord(null, true)+'@'+this.options.gO('EMAIL_HOSTING')[Math.floor(Math.random()*this.options.gO('EMAIL_HOSTING').length)];
 		}
 
 		//Select random option in dropdown... but it works weird. TODO:Look into it.
@@ -128,9 +129,11 @@ function valueGenerator(){
 			//generate full string
 			q=inp.id+' '+inp.name+' '+inp.className;
 			//choose type and generate
-			if(this.isAnyEqual(q, this.EMAIL))
+			if(this.isAnyEqual(q, this.options.gO('CONFIRM')))
+				return this.lastValueBOT;
+			else if(this.isAnyEqual(q, this.options.gO('EMAIL')))
 				return this.generateEmail();
-			else if(this.isAnyEqual(q, this.NUMBER))
+			else if(this.isAnyEqual(q, this.options.gO('NUMBER')))
 				return (Math.random()*10000); //TODO unhardcode
 			else 
 				return this.generateWord();
@@ -140,11 +143,13 @@ function valueGenerator(){
 				//Find all the inputs, and operate with them
 				el=document.getElementsByTagName('input');
 				for(var i in el) {
-					if((el[i].type=="text")||(el[i].type=="search"))
-						el[i].value=this.valueBasedOnType(el[i]);
+					if((el[i].type=="text")||(el[i].type=="search")){
+						this.lastValueBOT=this.valueBasedOnType(el[i]);
+						el[i].value=this.lastValueBOT;
+					}
 					else if(el[i].type=="password")
 						if(this.PASSWORD_DEF)
-							el[i].value=this.PASSWORD_DEF;
+							el[i].value=this.options.gO('PASSWORD_DEF');
 						else
 							el[i].value=this.generateWord();
 					else if(el[i].type=="checkbox")

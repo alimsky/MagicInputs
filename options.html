@@ -57,41 +57,47 @@
 			padding:5px;
 		}
 	</style>
+	<script type="text/javascript">
+
+	//this dummyClass made for calming down the magicFill class for options page, we don't need it here :)
+	function dummyClass(){this.scanTheDomAndMakeSomeMagic=function(){}}
+	window.vG= new dummyClass();
+
+	// Saves options to localStorage.
+	function save_options() {
+	  var select = document.getElementById("color");
+	  var color = select.children[select.selectedIndex].value;
+	  localStorage["favorite_color"] = color;
+
+	  // Update status to let user know options were saved.
+	  var status = document.getElementById("status");
+	  status.innerHTML = "Options Saved.";
+	  setTimeout(function() {
+		status.innerHTML = "";
+	  }, 750);
+	}
+
+	// Restores select box state to saved value from localStorage.
+	function restore_options() {
+	  var favorite = localStorage["favorite_color"];
+	  if (!favorite) {
+		return;
+	  }
+	  var select = document.getElementById("color");
+	  for (var i = 0; i < select.children.length; i++) {
+		var child = select.children[i];
+		if (child.value == favorite) {
+		  child.selected = "true";
+		  break;
+		}
+	  }
+	}
+
+	</script>
+
+	<script src="magicfill.js" type="text/javascript"></script>
+
 </head>
-
-<script type="text/javascript">
-
-// Saves options to localStorage.
-function save_options() {
-  var select = document.getElementById("color");
-  var color = select.children[select.selectedIndex].value;
-  localStorage["favorite_color"] = color;
-
-  // Update status to let user know options were saved.
-  var status = document.getElementById("status");
-  status.innerHTML = "Options Saved.";
-  setTimeout(function() {
-    status.innerHTML = "";
-  }, 750);
-}
-
-// Restores select box state to saved value from localStorage.
-function restore_options() {
-  var favorite = localStorage["favorite_color"];
-  if (!favorite) {
-    return;
-  }
-  var select = document.getElementById("color");
-  for (var i = 0; i < select.children.length; i++) {
-    var child = select.children[i];
-    if (child.value == favorite) {
-      child.selected = "true";
-      break;
-    }
-  }
-}
-
-</script>
 
 <body onload="restore_options()">
 <h1><icon></icon>Magic Inputs Options</h1>
