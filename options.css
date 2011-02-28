@@ -3,14 +3,22 @@
 			background:url('images/options_background.jpg');
 		}
 		body{
+			padding:10px;
+			overflow:hidden;
+		}
+		page{
+			display:block;
 			padding:35px 45px;
 			background:#fff;
-			margin:50px auto;
 			-webkit-border-radius:50px;
 			-webkit-box-shadow: 0 1px 3px #777;
 			font:14px/1.2em 'Helvetica', Arial, Verdana;
 			width:400px;
 			color:#333;
+			position:absolute;
+		}
+		page#about{
+			left:150%;
 		}
 		h1 {
 			text-shadow: 0 -1px 1px #777;
@@ -35,10 +43,14 @@
 			font-style:italic;
 			font-size:12px;
 			display:block;
-			margin: 5px 0 5px 9px;
+			margin: 5px 0 15px 9px;
 			color:#777;
 			padding: 0px 5px 0px 15px;
 			border-left: dotted 1px #ccc;
+		}
+		warn{
+			color:#f41;
+			text-decoration:none;
 		}
 		label{
 			display:inline-block;
@@ -46,7 +58,7 @@
 			font-size:12px;
 		}
 		label.long{
-			width:230px;
+			width:290px;
 		}
 		input[type=text]{
 			-webkit-border-radius:3px;
@@ -61,9 +73,48 @@
 			-webkit-border-radius: 10px;
 			padding:10px;
 			display:block;
+			overflow:hidden;
+		}
+		segment.closed:hover{
+			cursor:pointer;
+			background-color:#f0f0f0;
+		}
+		segment content{
+			padding-top:13px;
+			display:block;
+			clear:both;
+		}
+		segment.closed content{
+			width:100%;
+			margin-top:10px;
+		}
+		segment switcher{
+			float:right;
+			padding:3px 8px;
+			font-weight:bold;
+			font-size:18px;
+			text-shadow:0 1px 0 #fff;
+			background:#f0f0f0;
+			-webkit-border-radius:10px;
+			width:18px;
+			text-align:center;
+			cursor:pointer;
+		}
+		segment switcher:after{
+			content:'-';
+		}
+		segment.closed switcher:after{
+			content:"+";
+		}
+		segment.opened switcher:hover{
+			background-color:#e0e0e0;
+		}
+		segment.closed:hover h3{
+			text-decoration:underline;
 		}
 		segment h3{
-			margin-top:3px;
+			float:left;
+			margin:3px 0;
 		}
 		select.multiple{
 			-webkit-border-radius:5px;

@@ -11,12 +11,9 @@ function magicInputsOptions(){
 
 		//Try to get option from localStorage (where options.html saves it's cookies) if there is no such there take default value.
 		//gO is shortcut for getOption to comfortable use in code.
-		this.gO=function(optionName, isNotArray){
+		this.gO=function(optionName){
 			if(localStorage[optionName]){
-				if(!isNotArray)
 					return localStorage[optionName].split(',');
-				else
-					return localStorage[optionName];
 			}
 
 			//No such options defined, use default
@@ -24,15 +21,18 @@ function magicInputsOptions(){
 				return this.defaultOptions[optionName];
 		}
 
+		//Presetted options
 		this.setHardcodedOptions=function(storage){
 				this.setOption('EMAIL',['mail'], storage);
 				this.setOption('CONFIRM',['confirm'], storage);
 				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'val', 'code'], storage);
-				this.setOption('PASSWORD_DEF','123123', storage);
+				this.setOption('PASSWORD_TYPE', ['special'], storage);
+				this.setOption('PASSWORD_DEF',['123123'], storage);
 				this.setOption('EMAIL_HOSTING',['gmail.com','hotmail.com','yahoo.com','mail.ru'], storage);
 				this.setOption('CONSONANTS',['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh', 'fr','q'], storage);
 				this.setOption('VOWELS',['a','e','i','o','u','y', 'oo', 'ou', 'ae', 'ea'], storage);
 		}
+		//Put presetted to defaults
 		this.setHardcodedOptions(this.defaultOptions);
 }
 
@@ -64,6 +64,11 @@ function valueGenerator(){
 				return resultWord;
 		}
 
+		//generate secure password
+		this.generatePassword=function(){
+			return this.generateWord(16);
+		}
+
 		//generate whole phrases, inserting big letter in beggining and the dot at the end. Writing comments is so boring...
 		this.generatePhrase=function(lngth){
 				var resultPhrase='';
@@ -84,7 +89,7 @@ function valueGenerator(){
 
 		//generate email with random word and random selected email_hosting
 		this.generateEmail=function(){
-				return this.generateWord(null, true)+'@'+this.options.gO('EMAIL_HOSTING')[Math.floor(Math.random()*this.options.gO('EMAIL_HOSTING').length)];
+				return this.generateWord(null, true)+'@'+this.getRandomElement(this.options.gO('EMAIL_HOSTING'));
 		}
 
 		//Select random option in dropdown... but it works weird. TODO:Look into it.
@@ -110,8 +115,13 @@ function valueGenerator(){
 			}
 
 			//Do the magic!
-			radios[Math.floor(Math.random()*radios.length)].checked=true;
+			this.getRandomElement(radios).checked=true;
 
+		}
+
+		//gets one random element of array
+		this.getRandomElement=function(ar){
+			return ar[Math.floor(Math.random()*ar.length)];
 		}
 
 		//Is any entries of the string ST equal to any lements of Array AR
@@ -140,18 +150,30 @@ function valueGenerator(){
 		}
 
 		this.scanTheDomAndMakeSomeMagic=function(){
+				var stackMessages=[];
 				//Find all the inputs, and operate with them
 				el=document.getElementsByTagName('input');
 				for(var i in el) {
 					if((el[i].type=="text")||(el[i].type=="search")){
 						this.lastValueBOT=this.valueBasedOnType(el[i]);
 						el[i].value=this.lastValueBOT;
+						if(el[i].onkeydown) el[i].onkeydown();
+						if(el[i].onkeyup) el[i].onkeyup();
 					}
 					else if(el[i].type=="password")
-						if(this.PASSWORD_DEF)
-							el[i].value=this.options.gO('PASSWORD_DEF');
-						else
+
+						if(this.options.gO('PASSWORD_TYPE')[0]=='random')
 							el[i].value=this.generateWord();
+						else if(this.options.gO('PASSWORD_TYPE')[0]=='special')
+						{
+							var pass=this.generatePassword();
+							el[i].value=pass;
+							stackMessages.push('Generated password to field '+el[i].name+' = ' + pass);
+						}
+						else {
+							el[i].value=this.getRandomElement(this.options.gO('PASSWORD_DEF'));
+						}
+
 					else if(el[i].type=="checkbox")
 						this.checkValue(el[i]);
 					else if(el[i].type=="radio")
@@ -168,6 +190,14 @@ function valueGenerator(){
 				el=document.getElementsByTagName('select');
 				for(var i=0; i<el.length; i++) {
 					this.selectValue(el[i]);
+				}
+
+				if(stackMessages.length>0){
+					message='';
+					for(var b in stackMessages) {
+						message=message+(stackMessages[b])+'\n';
+					}
+					alert(message);
 				}
 				return 'All right!';
 		}

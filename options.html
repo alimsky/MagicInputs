@@ -3,10 +3,60 @@
 <head>
 	<title>Magic Inputs Options page</title>
 	<link rel="stylesheet" href="options.css">
+	<script type="text/javascript" src="jq.js"></script>
 	<script type="text/javascript">
-	//this dummyClass made for calming down the magicFill class for options page, we don't need it here :)
-	function dummyClass(){this.scanTheDomAndMakeSomeMagic=function(){}}
-	window.vG= new dummyClass();
+		//this dummyClass made for calming down the magicFill class for options page, we don't need it here :)
+		function dummyClass(){this.scanTheDomAndMakeSomeMagic=function(){}}
+		window.vG= new dummyClass();
+
+		window.animationFast=800;
+		window.animationEasy='easeInOutBack';
+		
+
+		$(document).ready(function(){
+			
+			poss=[];
+			page_poss=[];
+			for (var a=0; a<4; a++){
+				poss[a]=$('body').width()*(a-1.5) - $('page').width()/2;
+			}
+
+			page_poss['options']=2;
+			page_poss['about']=3;
+
+			pos_pages();
+
+			$('segment').each(function(id, sw){
+				$(sw).click(function(){
+					if($('content', this).is(':hidden'))
+					{
+						$('content', this).slideDown(window.animationFast, window.animationEasy);
+						$(this).removeClass('closed');
+						$(this).addClass('opened');
+					}
+				});
+			});
+			$('segment switcher').each(function(id, sw){
+				$(sw).click(function(e){
+					$('content', $(this).parent()).slideUp(window.animationFast,  window.animationEasy);
+					$(this).parent().addClass('closed');
+					$(this).parent().removeClass('opened');
+				});
+			});
+		});
+
+		function go_right(){ for(var t in page_poss){ page_poss[t]--;pos_pages();} }
+		function go_left(){ for(var t in page_poss){ page_poss[t]++;pos_pages(); } }
+		function pos_pages(){ 
+			for(var t in page_poss){ 
+				animEase = (page_poss[t]==2)?'easeOutCirc':'easeInCirc';
+			
+				$('page#'+t).animate({
+						left:poss[page_poss[t]]
+					}, 700, 'easeOutCirc');
+				} 
+		}
+
 
 		// Saves options to localStorage.
 		function save_options() {
@@ -53,37 +103,51 @@
 </head>
 
 <body>
-<h1><icon></icon>Magic Inputs Options</h1>
-
-<segment>
-<h3>Passwords</h3>
-	<block class="radiobox">
-		<input type="radio" name="password_type" value="constant" checked="checked" />
-		<label for="password_type">Use this:</label>
-		<input type="text" value="123123" name="password_constant" />
-	</block>
-	<block class="radiobox">
-		<input type="radio" name="password_type" value="generate" />
-		<label class="long" for="password_type">Generate random</label>
-		<comment>Note, that you wouldn't know this randomly generated password</comment>
-	</block>
-</segment>
-
-<segment>
-<h3>Email</h3>
-	<block class="radiobox">
-		<select class="multiple email_hostings" multiple="multiple">
-			<option>mail.ru</option>
-			<option>gmail.com</option>
-		</select>
-		<label class="long" for="password_type">Generate random</label>
-		<comment>Note, that you wouldn't know this randomly generated password</comment>
-	</block>
-</segment>
-
-<buttons>
-	<button onclick="save_options()">Save</button>
-</buttons>
-
+<page id="options">
+	<h1><icon></icon>Magic Inputs Options</h1>
+	<segment class="closed">
+		<h3>Passwords</h3>
+		<switcher></switcher>
+		<content style="display:none;">
+		  <block class="radiobox">
+			  <input type="radio" name="password_type" value="constant" checked="checked" />
+			  <label for="password_type">Use this:</label>
+			  <input type="text" value="123123" name="password_constant" />
+		  </block>
+		  <block class="radiobox">
+			  <input type="radio" name="password_type" value="random" />
+			  <label class="long" for="password_type">Generate random</label>
+			  <comment>Note, that you wouldn't know this randomly generated password</comment>
+		  </block>
+		  <block class="radiobox">
+			  <input type="radio" name="password_type" value="special" />
+			  <label class="long" for="password_type">Generate secure password and show it in alert</label>
+			  <comment><warn>Warning:</warn> The password would be shown as a plain text</comment>
+		  </block>
+		</content>
+	</segment>
+	<segment class="closed">
+		<h3>Email</h3>
+		<switcher></switcher>
+		<content style="display:none;">
+			<block class="radiobox">
+				<select class="multiple email_hostings" multiple="multiple">
+					<option>mail.ru</option>
+					<option>gmail.com</option>
+				</select>
+				<label class="long" for="password_type">Generate random</label>
+				<comment>Note, that you wouldn't know this randomly generated password</comment>
+			</block>
+		</content>
+	</segment>
+	<buttons>
+		<button onclick="save_options()">Save</button>
+		<button onclick="go_right()">Page</button>
+	</buttons>
+</page>
+<page id="about">
+	<h1>Wow</h1>
+	<p>Plugin was made by Serj Alimsky</p>
+</page>
 </body>
 </html>
