@@ -15,15 +15,11 @@
 
 		$(document).ready(function(){
 			
-			poss=[];
-			page_poss=[];
+			poss=[]; page_poss=[];
 			for (var a=0; a<4; a++){
 				poss[a]=$('body').width()*(a-1.5) - $('page').width()/2;
 			}
-
-			page_poss['options']=2;
-			page_poss['about']=3;
-
+			page_poss['options']=2; page_poss['about']=3;
 			pos_pages();
 
 			$('segment').each(function(id, sw){
@@ -38,22 +34,27 @@
 			});
 			$('segment switcher').each(function(id, sw){
 				$(sw).click(function(e){
-					$('content', $(this).parent()).slideUp(window.animationFast,  window.animationEasy);
+					$('content', $(this).parent()).slideUp(window.animationFast/2,  'easeOutCirc');
 					$(this).parent().addClass('closed');
 					$(this).parent().removeClass('opened');
 				});
 			});
+			$('label').each(function(i,lbl){
+				$(lbl).click(function(){
+					$('input', this)[0].checked=!$('input', this)[0].checked;
+				});
+			});
 		});
 
-		function go_right(){ for(var t in page_poss){ page_poss[t]--;pos_pages();} }
-		function go_left(){ for(var t in page_poss){ page_poss[t]++;pos_pages(); } }
+		function go_right(){ for(var t in page_poss){ page_poss[t]--;} pos_pages(); }
+		function go_left(){ for(var t in page_poss){ page_poss[t]++; } pos_pages(); }
 		function pos_pages(){ 
 			for(var t in page_poss){ 
 				animEase = (page_poss[t]==2)?'easeOutCirc':'easeInCirc';
-			
+				animSpeed = (page_poss[t]==2)?400:300;
 				$('page#'+t).animate({
 						left:poss[page_poss[t]]
-					}, 700, 'easeOutCirc');
+					}, animSpeed, animEase);
 				} 
 		}
 
@@ -110,18 +111,18 @@
 		<switcher></switcher>
 		<content style="display:none;">
 		  <block class="radiobox">
-			  <input type="radio" name="password_type" value="constant" checked="checked" />
-			  <label for="password_type">Use this:</label>
+			  <label for="password_type"><input type="radio" name="password_type" value="constant" checked="checked" />
+			  Use this:</label>
 			  <input type="text" value="123123" name="password_constant" />
 		  </block>
 		  <block class="radiobox">
-			  <input type="radio" name="password_type" value="random" />
-			  <label class="long" for="password_type">Generate random</label>
+			  <label class="long" for="password_type"><input type="radio" name="password_type" value="random" />
+			  Generate random</label>
 			  <comment>Note, that you wouldn't know this randomly generated password</comment>
 		  </block>
 		  <block class="radiobox">
-			  <input type="radio" name="password_type" value="special" />
-			  <label class="long" for="password_type">Generate secure password and show it in alert</label>
+			  <label class="long" for="password_type"><input type="radio" name="password_type" value="special" />
+			  Generate secure password and show it in alert</label>
 			  <comment><warn>Warning:</warn> The password would be shown as a plain text</comment>
 		  </block>
 		</content>
@@ -146,8 +147,12 @@
 	</buttons>
 </page>
 <page id="about">
-	<h1>Wow</h1>
-	<p>Plugin was made by Serj Alimsky</p>
+	<h1>About Magic Inputs</h1>
+	<p>Plugin written by Serj Alimsky.</p>
+	<p>Feel free to <a href="mailto:Serj Alimsky <alimsky@gmail.com>">ask</a> me any questions: </p>
+	<buttons>
+		<button onclick="go_left()">Page</button>
+	</buttons>
 </page>
 </body>
 </html>

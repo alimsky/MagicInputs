@@ -57,6 +57,10 @@
 			width:130px;
 			font-size:12px;
 		}
+		label:hover{
+			color:#000;
+			cursor:pointer;
+			}
 		label.long{
 			width:290px;
 		}
