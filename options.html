@@ -4,87 +4,8 @@
 	<title>Magic Inputs Options page</title>
 	<link rel="stylesheet" href="options.css">
 	<script type="text/javascript" src="jq.js"></script>
-	<script type="text/javascript">
-		//this dummyClass made for calming down the magicFill class for options page, we don't need it here :)
-		function dummyClass(){this.scanTheDomAndMakeSomeMagic=function(){}}
-		window.vG= new dummyClass();
-
-		window.animationFast=800;
-		window.animationEasy='easeInOutBack';
-		
-
-		$(document).ready(function(){
-			
-			poss=[]; page_poss=[];
-			for (var a=0; a<4; a++){
-				poss[a]=$('body').width()*(a-1.5) - $('page').width()/2;
-			}
-			page_poss['options']=2; page_poss['about']=3;
-			pos_pages();
-
-			$('segment').each(function(id, sw){
-				$(sw).click(function(){
-					if($('content', this).is(':hidden'))
-					{
-						$('content', this).slideDown(window.animationFast, window.animationEasy);
-						$(this).removeClass('closed');
-						$(this).addClass('opened');
-					}
-				});
-			});
-			$('segment switcher').each(function(id, sw){
-				$(sw).click(function(e){
-					$('content', $(this).parent()).slideUp(window.animationFast/2,  'easeOutCirc');
-					$(this).parent().addClass('closed');
-					$(this).parent().removeClass('opened');
-				});
-			});
-
-		});
-
-		function go_right(){ for(var t in page_poss){ page_poss[t]--;} pos_pages(); }
-		function go_left(){ for(var t in page_poss){ page_poss[t]++; } pos_pages(); }
-		function pos_pages(){ 
-			for(var t in page_poss){ 
-				animEase = (page_poss[t]==2)?'easeOutCirc':'easeInCirc';
-				animSpeed = (page_poss[t]==2)?400:300;
-				$('page#'+t).animate({
-						left:poss[page_poss[t]]
-					}, animSpeed, animEase);
-				} 
-		}
-
-
-		// Saves options to localStorage.
-		function save_options() {
-		  // Update status to let user know options were saved.
-		  var status = document.getElementById("status");
-		  status.innerHTML = "Options Saved.";
-		  setTimeout(function() {
-			status.innerHTML = "";
-		  }, 750);
-		}
-
-		// Restores select box state to saved value from localStorage.
-		function restore_options() {
-		  var favorite = localStorage["favorite_color"];
-		  if (!favorite) {
-			return;
-		  }
-		  var select = document.getElementById("color");
-		  for (var i = 0; i < select.children.length; i++) {
-			var child = select.children[i];
-			if (child.value == favorite) {
-			  child.selected = "true";
-			  break;
-			}
-		  }
-		}
-
-	</script>
-
-	<script src="magicfill.js" type="text/javascript"></script>
-
+	<script type="text/javascript" src="options.js"></script>
+	<script type="text/javascript" src="magicfill.js"></script>
 	<script>
 		 var _gaq = _gaq || [];
 		 _gaq.push(['_setAccount', 'UA-18626346-3']);
@@ -125,6 +46,20 @@
 	</segment>
 	<segment class="closed">
 		<h3>Email</h3>
+		<switcher></switcher>
+		<content style="display:none;">
+			<block class="radiobox">
+				<select class="multiple email_hostings" multiple="multiple">
+					<option>mail.ru</option>
+					<option>gmail.com</option>
+				</select>
+				<label class="long" for="password_type">Generate random</label>
+				<comment>Note, that you wouldn't know this randomly generated password</comment>
+			</block>
+		</content>
+	</segment>
+	<segment class="closed">
+		<h3>TS</h3>
 		<switcher></switcher>
 		<content style="display:none;">
 			<block class="radiobox">

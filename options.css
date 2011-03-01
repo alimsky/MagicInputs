@@ -4,7 +4,7 @@
 		}
 		body{
 			padding:10px;
-			overflow:hidden;
+			overflow-x:hidden;
 		}
 		page{
 			display:block;
@@ -16,6 +16,7 @@
 			width:400px;
 			color:#333;
 			position:absolute;
+			margin-bottom:35px;
 		}
 		page#about{
 			left:150%;
@@ -67,7 +68,7 @@
 		input[type=radio],
 		input[type=checkbox]{
 			cursor:pointer;
-			top:2px;
+			top:1px;
 			position:relative;
 		}
 		input[type=text]{
@@ -103,6 +104,8 @@
 			padding:3px 8px;
 			font-weight:bold;
 			font-size:18px;
+			line-height:14px;
+			height:17px;
 			text-shadow:0 1px 0 #fff;
 			background:#f0f0f0;
 			-webkit-border-radius:10px;
