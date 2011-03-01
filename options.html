@@ -39,11 +39,7 @@
 					$(this).parent().removeClass('opened');
 				});
 			});
-			$('label').each(function(i,lbl){
-				$(lbl).click(function(){
-					$('input', this)[0].checked=!$('input', this)[0].checked;
-				});
-			});
+
 		});
 
 		function go_right(){ for(var t in page_poss){ page_poss[t]--;} pos_pages(); }
@@ -111,18 +107,18 @@
 		<switcher></switcher>
 		<content style="display:none;">
 		  <block class="radiobox">
-			  <label for="password_type"><input type="radio" name="password_type" value="constant" checked="checked" />
-			  Use this:</label>
+			  <input type="radio" id="password_type_constant" name="password_type" value="constant" checked="checked" />
+			  <label for="password_type_constant">Use this:</label>
 			  <input type="text" value="123123" name="password_constant" />
 		  </block>
 		  <block class="radiobox">
-			  <label class="long" for="password_type"><input type="radio" name="password_type" value="random" />
-			  Generate random</label>
+			  <input type="radio" id="password_type_random" name="password_type" value="random" />
+			  <label class="long" for="password_type_random">Generate random</label>
 			  <comment>Note, that you wouldn't know this randomly generated password</comment>
 		  </block>
 		  <block class="radiobox">
-			  <label class="long" for="password_type"><input type="radio" name="password_type" value="special" />
-			  Generate secure password and show it in alert</label>
+			  <input type="radio" id="password_type_special" name="password_type" value="special" />
+			  <label class="long" for="password_type_special">Generate secure password and show it in alert</label>
 			  <comment><warn>Warning:</warn> The password would be shown as a plain text</comment>
 		  </block>
 		</content>
