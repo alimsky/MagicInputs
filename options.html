@@ -5,6 +5,7 @@
 	<link rel="stylesheet" href="options.css">
 	<script type="text/javascript" src="jq.js"></script>
 	<script type="text/javascript" src="options.js"></script>
+	<script type="text/javascript" src="options_visual.js"></script>
 	<script type="text/javascript" src="magicfill.js"></script>
 	<script>
 		 var _gaq = _gaq || [];
@@ -17,72 +18,75 @@
 		   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		 })();
    </script>
-
 </head>
 
 <body>
 <page id="options">
 	<h1><icon></icon>Magic Inputs Options</h1>
-	<segment class="closed">
-		<h3>Passwords</h3>
-		<switcher></switcher>
-		<content style="display:none;">
-		  <block class="radiobox">
-			  <input type="radio" id="password_type_constant" name="password_type" value="constant" checked="checked" />
-			  <label for="password_type_constant">Use this:</label>
-			  <input type="text" value="123123" name="password_constant" />
-		  </block>
-		  <block class="radiobox">
-			  <input type="radio" id="password_type_random" name="password_type" value="random" />
-			  <label class="long" for="password_type_random">Generate random</label>
-			  <comment>Note, that you wouldn't know this randomly generated password</comment>
-		  </block>
-		  <block class="radiobox">
-			  <input type="radio" id="password_type_special" name="password_type" value="special" />
-			  <label class="long" for="password_type_special">Generate secure password and show it in alert</label>
-			  <comment><warn>Warning:</warn> The password would be shown as a plain text</comment>
-		  </block>
-		</content>
-	</segment>
-	<segment class="closed">
-		<h3>Email</h3>
-		<switcher></switcher>
-		<content style="display:none;">
-			<block class="radiobox">
-				<select class="multiple email_hostings" multiple="multiple">
-					<option>mail.ru</option>
-					<option>gmail.com</option>
-				</select>
-				<label class="long" for="password_type">Generate random</label>
-				<comment>Note, that you wouldn't know this randomly generated password</comment>
-			</block>
-		</content>
-	</segment>
-	<segment class="closed">
-		<h3>TS</h3>
-		<switcher></switcher>
-		<content style="display:none;">
-			<block class="radiobox">
-				<select class="multiple email_hostings" multiple="multiple">
-					<option>mail.ru</option>
-					<option>gmail.com</option>
-				</select>
-				<label class="long" for="password_type">Generate random</label>
-				<comment>Note, that you wouldn't know this randomly generated password</comment>
-			</block>
-		</content>
-	</segment>
-	<buttons>
-		<button onclick="save_options()">Save</button>
-		<button onclick="go_right()">Page</button>
-	</buttons>
+	<form id="options_form">
+		<segment class="hotkeys">
+			<h3>Hotkeys</h3>
+			<switcher></switcher>
+			<content>
+				<block class="radiobox">
+					<input type="checkbox" id="use_hotkeys" name="use_hotkeys" checked="" />
+					<label for="use_hotkeys">Use hotkeys</label>
+				</block>
+				<block class="hotkey">
+					<label class="none-check">Hotkey to fill the form</label>
+					<button id="hotkey_typical" onclick="return false;">Assign</button>
+					<input id="hotkey_typical_input" type="text" placeholder="(not assigned)" disabled="disabled" />
+				</block>
+				<comment>Going to unhardcode this as soon as possible</comment>
+			</content>
+		</segment>
+		<segment class="passwords closed">
+			<h3>Passwords</h3>
+			<switcher></switcher>
+			<content style="display:none;">
+			  <block class="radiobox">
+				  <input type="radio" id="password_type_constant" name="password_type" value="constant" checked="checked" />
+				  <label for="password_type_constant">Use this:</label>
+				  <input type="text" value="123123" name="password_constant" />
+			  </block>
+			  <block class="radiobox">
+				  <input type="radio" id="password_type_random" name="password_type" value="random" />
+				  <label class="long" for="password_type_random">Generate random</label>
+				  <comment>Note, that you wouldn't know this randomly generated password</comment>
+			  </block>
+			  <block class="radiobox">
+				  <input type="radio" id="password_type_special" name="password_type" value="special" />
+				  <label class="long" for="password_type_special">Generate secure password and show it in alert</label>
+				  <comment><warning>Warning:</warning> The password would be shown as a plain text</comment>
+			  </block>
+			</content>
+		</segment>
+		<segment class="emails closed">
+			<h3>Email</h3>
+			<switcher></switcher>
+			<content style="display:none;">
+				<block class="radiobox">
+					<select class="multiple email_hostings" multiple="multiple">
+						<option>mail.ru</option>
+						<option>gmail.com</option>
+					</select>
+					<label class="long" for="password_type">Generate random</label>
+					<comment>Note, that you wouldn't know this randomly generated password</comment>
+				</block>
+			</content>
+		</segment>
+		<buttons>
+			<button onclick="save_options()">Save</button>
+			<a href="javascript:go_right();">About</a>
+		</buttons>
+	</form>
 </page>
 <page id="about">
 	<h1>About Magic Inputs</h1>
 	<p>Plugin written by Serj Alimsky.</p>
 	<p>Feel free to <a href="mailto:Serj Alimsky <alimsky@gmail.com>">ask</a> me any questions: </p>
 	<buttons>
-		<button onclick="go_left()">Page</button>
+		<a href="javascript:go_left();">Options</a>
 	</buttons>
 </page>
 </body>
