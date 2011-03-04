@@ -25,10 +25,11 @@
 	<form id="options_form">
 		<segment class="hotkeys">
 			<h3>Hotkeys</h3>
+			<changed></changed>
 			<switcher></switcher>
 			<content>
 				<block class="radiobox">
-					<input type="checkbox" id="use_hotkeys" name="use_hotkeys"/>
+					<input type="checkbox" id="use_hotkeys" name="USE_HOTKEYS"/>
 					<label for="use_hotkeys">Use hotkeys</label>
 				</block>
 				<block class="hotkey">
@@ -41,36 +42,41 @@
 		</segment>
 		<segment class="passwords closed">
 			<h3>Passwords</h3>
+			<changed></changed>
 			<switcher></switcher>
 			<content style="display:none;">
 			  <block class="radiobox">
-				  <input type="radio" id="password_type_constant" name="password_type" value="constant" checked="checked" />
+				  <input type="radio" id="password_type_constant" name="PASSWORD_TYPE" value="constant" checked="checked" />
 				  <label for="password_type_constant">Use this:</label>
-				  <input type="text" value="123123" name="password_constant" />
+				  <input type="text" value="123123" name="PASSWORD_DEF" />
 			  </block>
 			  <block class="radiobox">
-				  <input type="radio" id="password_type_random" name="password_type" value="random" />
+				  <input type="radio" id="password_type_random" name="PASSWORD_TYPE" value="random" />
 				  <label class="long" for="password_type_random">Generate random</label>
 				  <comment>Note, that you wouldn't know this randomly generated password</comment>
 			  </block>
 			  <block class="radiobox">
-				  <input type="radio" id="password_type_special" name="password_type" value="special" />
+				  <input type="radio" id="password_type_special" name="PASSWORD_TYPE" value="special" />
 				  <label class="long" for="password_type_special">Generate secure password and show it in alert</label>
 				  <comment><warning>Warning:</warning> The password would be shown as a plain text</comment>
 			  </block>
 			</content>
 		</segment>
 		<segment class="emails closed">
-			<h3>Email</h3>
+			<h3>Emails</h3>
+			<changed></changed>
 			<switcher></switcher>
 			<content style="display:none;">
+				<h4>Host part of email (username<b>@host.com</b>)</h4>
+				<block class="radiobox w-textarea">
+				  	<input type="radio" id="email_hosting_type_one" checked="checked" name="EMAIL_HOSTING_TYPE" value="one" />
+					<label for="email_hosting_type_one">Choose by random:</label>
+					<textarea name="EMAIL_HOSTING" class="save_as_array">gmail.com,hotmail.com,yahoo.com,mail.ru</textarea>
+				</block>
+				<comment>Hosts should be separated by comma</comment>
 				<block class="radiobox">
-					<select class="multiple email_hostings" multiple="multiple">
-						<option>mail.ru</option>
-						<option>gmail.com</option>
-					</select>
-					<label class="long" for="password_type">Generate random</label>
-					<comment>Note, that you wouldn't know this randomly generated password</comment>
+				  	<input type="radio" id="email_hosting_type_generate" name="EMAIL_HOSTING_TYPE" value="generate" />
+					<label for="email_hosting_type_generate">Generate <b>random</b>.com</label>
 				</block>
 			</content>
 		</segment>

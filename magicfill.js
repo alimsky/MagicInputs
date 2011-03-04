@@ -38,13 +38,17 @@ function magicInputsOptions(){
 
 		//Presetted options
 		this.setHardcodedOptions=function(storage){
+
 				this.setOption('EMAIL',['mail'], storage);
-				this.setOption('USE_HOTKEYS',false, storage);
 				this.setOption('CONFIRM',['confirm'], storage);
 				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'val', 'code'], storage);
+
+				this.setOption('USE_HOTKEYS',false, storage);
 				this.setOption('PASSWORD_TYPE', ['special'], storage);
 				this.setOption('PASSWORD_DEF',['123123'], storage);
+				this.setOption('EMAIL_HOSTING_TYPE','one', storage);
 				this.setOption('EMAIL_HOSTING',['gmail.com','hotmail.com','yahoo.com','mail.ru'], storage);
+
 				this.setOption('CONSONANTS',['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh', 'fr','q'], storage);
 				this.setOption('VOWELS',['a','e','i','o','u','y', 'oo', 'ou', 'ae', 'ea'], storage);
 		}
@@ -105,7 +109,10 @@ function valueGenerator(){
 
 		//generate email with random word and random selected email_hosting
 		this.generateEmail=function(){
+			if(this.options.gO('EMAIL_HOSTING_TYPE')=='one')
 				return this.generateWord(null, true)+'@'+this.getRandomElement(this.options.gO('EMAIL_HOSTING'));
+			else
+				return this.generateWord(null, true)+'@'+this.generateWord(null, true)+'.com';
 		}
 
 		//Select random option in dropdown... but it works weird. TODO:Look into it.
@@ -187,7 +194,7 @@ function valueGenerator(){
 							stackMessages.push('Generated password to field '+el[i].name+' = ' + pass);
 						}
 						else {
-							el[i].value=this.getRandomElement(this.options.gO('PASSWORD_DEF'));
+							el[i].value=(this.options.gO('PASSWORD_DEF'));
 						}
 
 					else if(el[i].type=="checkbox")
