@@ -29,7 +29,7 @@ $(document).keyup(function(e){
 		var ch=convertEventToHotkeyString(e); // to show in input
 		$('#hotkey_'+window.hotKeyBind+'_input').val(ch); //...
 		storeOption(window.hotKeyBind+'_hotkey',{ctrlKey:e.ctrlKey, altKey:e.altKey, shiftKey:e.shiftKey, keyCode:e.keyCode}); // save this
-		highlightChange($('.hotkeys content'));
+		highlightChange($('.hotkeys content')[0]);
 	}
 	dropHotkeyAssign();	
 });
@@ -64,17 +64,23 @@ $(document).ready(function(){
 		$('#hotkey_typical_input').val(convertEventToHotkeyString(sts['typical_hotkey']));
 
 	if(sts['PASSWORD_TYPE'])
-		$('.passwords input[value=' + sts['PASSWORD_TYPE'] + ']').attr('checked','checked');
-
-	if(sts['EMAIL_HOSTING_TYPE'])
-		$('.emails input[value=' + sts['EMAIL_HOSTING_TYPE'] + ']').attr('checked','checked');
+		$('input[name=PASSWORD_TYPE][value=' + sts['PASSWORD_TYPE'] + ']').attr('checked','checked');
 
 	if(sts['PASSWORD_DEF'])
 		$('input[name=PASSWORD_DEF]').val(sts['PASSWORD_DEF']);
 
+	if(sts['EMAIL_USERNAME_TYPE'])
+		$('input[name=EMAIL_USERNAME_TYPE][value=' + sts['EMAIL_USERNAME_TYPE'] + ']').attr('checked','checked');
+
+	if(sts['EMAIL_USERNAME_DEF'])
+		$('input[name=EMAIL_USERNAME_DEF]').val(sts['EMAIL_USERNAME_DEF']);
+
+	if(sts['EMAIL_HOSTING_TYPE'])
+		$('input[name=EMAIL_HOSTING_TYPE][value=' + sts['EMAIL_HOSTING_TYPE'] + ']').attr('checked','checked');
+
 	var sss=sts['EMAIL_HOSTING']+'';
 	if(sts['EMAIL_HOSTING'])
-		$('textarea[name=EMAIL_HOSTING]').val(sss.replace(',', ', '));
+		$('textarea[name=EMAIL_HOSTING]').val(sss.replace(/,/g, ', '));
 
 
 

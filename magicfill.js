@@ -41,11 +41,15 @@ function magicInputsOptions(){
 
 				this.setOption('EMAIL',['mail'], storage);
 				this.setOption('CONFIRM',['confirm'], storage);
-				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'val', 'code'], storage);
+				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'code'], storage);
 
 				this.setOption('USE_HOTKEYS',false, storage);
-				this.setOption('PASSWORD_TYPE', ['special'], storage);
+				this.setOption('PASSWORD_TYPE', 'special', storage);
 				this.setOption('PASSWORD_DEF',['123123'], storage);
+
+				this.setOption('EMAIL_USERNAME_TYPE', 'generate', storage);
+				this.setOption('EMAIL_USERNAME_DEF','username', storage);
+
 				this.setOption('EMAIL_HOSTING_TYPE','one', storage);
 				this.setOption('EMAIL_HOSTING',['gmail.com','hotmail.com','yahoo.com','mail.ru'], storage);
 
@@ -109,8 +113,9 @@ function valueGenerator(){
 
 		//generate email with random word and random selected email_hosting
 		this.generateEmail=function(){
+			var username = (this.options.gO('EMAIL_USERNAME_TYPE')=='constant')?this.options.gO('EMAIL_USERNAME_DEF'):this.generateWord(null, true);
 			if(this.options.gO('EMAIL_HOSTING_TYPE')=='one')
-				return this.generateWord(null, true)+'@'+this.getRandomElement(this.options.gO('EMAIL_HOSTING'));
+				return username+'@'+this.getRandomElement(this.options.gO('EMAIL_HOSTING'));
 			else
 				return this.generateWord(null, true)+'@'+this.generateWord(null, true)+'.com';
 		}
@@ -185,9 +190,9 @@ function valueGenerator(){
 					}
 					else if(el[i].type=="password")
 
-						if(this.options.gO('PASSWORD_TYPE')[0]=='random')
+						if(this.options.gO('PASSWORD_TYPE')=='random')
 							el[i].value=this.generateWord();
-						else if(this.options.gO('PASSWORD_TYPE')[0]=='special')
+						else if(this.options.gO('PASSWORD_TYPE')=='special')
 						{
 							var pass=this.generatePassword();
 							el[i].value=pass;

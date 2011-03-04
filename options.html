@@ -37,7 +37,35 @@
 					<button id="hotkey_typical" onclick="return false;">Assign</button>
 					<input id="hotkey_typical_input" class="hotkey-input" type="text" placeholder="(not assigned)" disabled="disabled" />
 				</block>
-				<comment>Going to unhardcode this as soon as possible</comment>
+			</content>
+		</segment>
+		<segment class="emails closed">
+			<h3>Emails</h3>
+			<changed></changed>
+			<switcher></switcher>
+			<content style="display:none;">
+				<h4>Username part of email (<b>username</b>@host.com)</h4>
+				<block class="radiobox w-textarea">
+				  	<input type="radio" id="email_username_type_generate" checked="checked" name="EMAIL_USERNAME_TYPE" value="generate" />
+					<label for="email_username_type_generate">Generate random name</label>
+				</block>
+				<block class="radiobox">
+				  	<input type="radio" id="email_username_type_constant" name="EMAIL_USERNAME_TYPE" value="constant" />
+					<label for="email_username_type_constant">Use this:</label>
+					<input type="text" value="username" name="EMAIL_USERNAME_DEF" />
+				</block>
+
+				<h4>Host part of email (username<b>@host.com</b>)</h4>
+				<block class="radiobox w-textarea">
+				  	<input type="radio" id="email_hosting_type_one" checked="checked" name="EMAIL_HOSTING_TYPE" value="one" />
+					<label for="email_hosting_type_one">Choose by random:</label>
+					<textarea name="EMAIL_HOSTING" class="save_as_array">gmail.com,hotmail.com,yahoo.com,mail.ru</textarea>
+				</block>
+				<comment>Hosts should be separated by comma</comment>
+				<block class="radiobox">
+				  	<input type="radio" id="email_hosting_type_generate" name="EMAIL_HOSTING_TYPE" value="generate" />
+					<label for="email_hosting_type_generate">Generate <b>random</b>.com</label>
+				</block>
 			</content>
 		</segment>
 		<segment class="passwords closed">
@@ -60,24 +88,6 @@
 				  <label class="long" for="password_type_special">Generate secure password and show it in alert</label>
 				  <comment><warning>Warning:</warning> The password would be shown as a plain text</comment>
 			  </block>
-			</content>
-		</segment>
-		<segment class="emails closed">
-			<h3>Emails</h3>
-			<changed></changed>
-			<switcher></switcher>
-			<content style="display:none;">
-				<h4>Host part of email (username<b>@host.com</b>)</h4>
-				<block class="radiobox w-textarea">
-				  	<input type="radio" id="email_hosting_type_one" checked="checked" name="EMAIL_HOSTING_TYPE" value="one" />
-					<label for="email_hosting_type_one">Choose by random:</label>
-					<textarea name="EMAIL_HOSTING" class="save_as_array">gmail.com,hotmail.com,yahoo.com,mail.ru</textarea>
-				</block>
-				<comment>Hosts should be separated by comma</comment>
-				<block class="radiobox">
-				  	<input type="radio" id="email_hosting_type_generate" name="EMAIL_HOSTING_TYPE" value="generate" />
-					<label for="email_hosting_type_generate">Generate <b>random</b>.com</label>
-				</block>
 			</content>
 		</segment>
 		<buttons>

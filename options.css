@@ -103,10 +103,13 @@
 		}
 		segment h4{
 			font-weight:400;
-			margin:0 0 9px;
+			margin:24px 0 9px;
 			padding: 0 0 5px;
 			font-size:13px;
 			border-bottom: dotted 1px #ccc;
+		}
+		segment h4:first-child{
+			margin-top:0;
 		}
 		block{
 			margin-bottom:5px;
@@ -135,6 +138,7 @@
 			float:right;
 			resize:none;
 			margin-top:-3px;
+			height:50px;
 		}
 		.radiobox label:hover{
 			color:#000;
