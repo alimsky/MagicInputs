@@ -1,6 +1,3 @@
-//this dummyClass made for calming down the magicFill class for options page, we don't need it here :)
-function dummyClass(){this.scanTheDomAndMakeSomeMagic=function(){}}
-window.vG= new dummyClass();
 
 window.animationFast=800;
 window.animationEasy='easeInOutBack';

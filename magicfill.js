@@ -1,4 +1,7 @@
 (function(){
+  chrome.extension.sendRequest(null, function(response) {
+	localStorageCopy=response.result;
+  });
 
 function magicInputsOptions(){
 
@@ -9,11 +12,23 @@ function magicInputsOptions(){
 			storage[option]=value;
 		}
 
+		/*/Is there any preset?
+		if(_localStorage('preset'))
+			localSettings = JSON.parse(_localStorage(_localStorage('preset')));
+		else
+			localSettings = (_localStorage('MagicInputs_defaultPreset'))?JSON.parse(_localStorage('MagicInputs_defaultPreset')):[];
+		*/		
+
+
 		//Try to get option from localStorage (where options.html saves it's cookies) if there is no such there take default value.
 		//gO is shortcut for getOption to comfortable use in code.
 		this.gO=function(optionName){
-			if(localStorage[optionName]){
-					return localStorage[optionName].split(',');
+			var preset=(localStorageCopy[preset])?localStorageCopy[preset]:'MagicInputs_defaultPreset';
+			if(!this.localSettings)
+				this.localSettings=JSON.parse(localStorageCopy[preset]);
+
+			if(this.localSettings[optionName]){
+					return this.localSettings[optionName];
 			}
 
 			//No such options defined, use default
@@ -24,6 +39,7 @@ function magicInputsOptions(){
 		//Presetted options
 		this.setHardcodedOptions=function(storage){
 				this.setOption('EMAIL',['mail'], storage);
+				this.setOption('USE_HOTKEYS',false, storage);
 				this.setOption('CONFIRM',['confirm'], storage);
 				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'val', 'code'], storage);
 				this.setOption('PASSWORD_TYPE', ['special'], storage);
@@ -35,7 +51,7 @@ function magicInputsOptions(){
 		//Put presetted to defaults
 		this.setHardcodedOptions(this.defaultOptions);
 }
-
+window.o = new magicInputsOptions();
 function valueGenerator(){
 
 		this.options=new magicInputsOptions();
@@ -149,7 +165,7 @@ function valueGenerator(){
 				return this.generateWord();
 		}
 
-		this.scanTheDomAndMakeSomeMagic=function(){
+		this.scanTheDomAndMakeSomeMagic=function(magicMode){
 				var stackMessages=[];
 				//Find all the inputs, and operate with them
 				el=document.getElementsByTagName('input');
@@ -201,11 +217,28 @@ function valueGenerator(){
 				}
 				return 'All right!';
 		}
+
+		this.aHotKey=function(eve){
+			if(!this.options.gO('USE_HOTKEYS')) return;
+			tH = this.options.gO('typical_hotkey');
+			if(!tH) return;
+			if((tH.ctrlKey==eve.ctrlKey)&&
+				(tH.shiftKey==eve.shiftKey)&&
+				(tH.altKey==eve.altKey)&&
+				(tH.keyCode==eve.keyCode))
+				{
+					this.scanTheDomAndMakeSomeMagic();
+			}
+//			if(eve.ctrlKey&&eve.altKey)
+//				this.scanTheDomAndMakeSomeMagic();
+		}
+
 }
 
 if(!window.vG) 
 	window.vG=new valueGenerator();
 
-window.vG.scanTheDomAndMakeSomeMagic();
+document.onkeyup=function(e){window.vG.aHotKey(e)};
+
 
 })();

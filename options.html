@@ -6,7 +6,6 @@
 	<script type="text/javascript" src="jq.js"></script>
 	<script type="text/javascript" src="options.js"></script>
 	<script type="text/javascript" src="options_visual.js"></script>
-	<script type="text/javascript" src="magicfill.js"></script>
 	<script>
 		 var _gaq = _gaq || [];
 		 _gaq.push(['_setAccount', 'UA-18626346-3']);
@@ -29,13 +28,13 @@
 			<switcher></switcher>
 			<content>
 				<block class="radiobox">
-					<input type="checkbox" id="use_hotkeys" name="use_hotkeys" checked="" />
+					<input type="checkbox" id="use_hotkeys" name="use_hotkeys"/>
 					<label for="use_hotkeys">Use hotkeys</label>
 				</block>
 				<block class="hotkey">
 					<label class="none-check">Hotkey to fill the form</label>
 					<button id="hotkey_typical" onclick="return false;">Assign</button>
-					<input id="hotkey_typical_input" type="text" placeholder="(not assigned)" disabled="disabled" />
+					<input id="hotkey_typical_input" class="hotkey-input" type="text" placeholder="(not assigned)" disabled="disabled" />
 				</block>
 				<comment>Going to unhardcode this as soon as possible</comment>
 			</content>
@@ -76,7 +75,7 @@
 			</content>
 		</segment>
 		<buttons>
-			<button onclick="save_options()">Save</button>
+			<button onclick="save_options(); return false;">Save</button>
 			<a href="javascript:go_right();">About</a>
 		</buttons>
 	</form>

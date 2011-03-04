@@ -1,10 +1,13 @@
 <html>
 <script type="text/javascript">
+chrome.extension.onRequest.addListener(
+  function(request, sender, sendResponse) {
+		sendResponse({result: localStorage});
+});
 chrome.browserAction.onClicked.addListener(function(){
-	chrome.tabs.executeScript(null, {file: "magicfill.js"});
+	chrome.tabs.executeScript(null, {code:'window.vG.scanTheDomAndMakeSomeMagic();'});
 	_gaq.push(['_trackEvent', s, 'clicked']);
 });
-
 </script>
 
    <script>

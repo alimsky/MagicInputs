@@ -134,6 +134,10 @@
 		block.hotkey input[type=text]{
 			width:120px;
 		}
+		input.assign-in-process{
+			background-color:yellow;
+			text-shadow:0 1px 0 #fff;
+		}
 		block.hotkey button{
 			float:right;
 		}
