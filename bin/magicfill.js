@@ -1,7 +1,3 @@
-(function(){
-  chrome.extension.sendRequest(null, function(response) {
-	localStorageCopy=response.result;
-  });
 
 function magicInputsOptions(){
 
@@ -24,8 +20,13 @@ function magicInputsOptions(){
 		//gO is shortcut for getOption to comfortable use in code.
 		this.gO=function(optionName){
 			var preset=(localStorageCopy[preset])?localStorageCopy[preset]:'MagicInputs_defaultPreset';
-			if(!this.localSettings)
-				this.localSettings=JSON.parse(localStorageCopy[preset]);
+
+			if((!this.localSettings))
+				if(localStorageCopy[preset])
+					this.localSettings=JSON.parse(localStorageCopy[preset]);
+				else
+					this.localSettings=[];
+
 
 			if(this.localSettings[optionName]){
 					return this.localSettings[optionName];
@@ -42,9 +43,12 @@ function magicInputsOptions(){
 				this.setOption('EMAIL',['mail'], storage);
 				this.setOption('CONFIRM',['confirm'], storage);
 				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'code'], storage);
+				this.setOption('ISDAY',['day'], storage);
+				this.setOption('ISMONTH',['month'], storage);
+				this.setOption('ISYEAR',['year'], storage);
 
 				this.setOption('USE_HOTKEYS',false, storage);
-				this.setOption('PASSWORD_TYPE', 'special', storage);
+				this.setOption('PASSWORD_TYPE', 'const', storage);
 				this.setOption('PASSWORD_DEF',['123123'], storage);
 
 				this.setOption('EMAIL_USERNAME_TYPE', 'generate', storage);
@@ -171,8 +175,14 @@ function valueGenerator(){
 				return this.lastValueBOT;
 			else if(this.isAnyEqual(q, this.options.gO('EMAIL')))
 				return this.generateEmail();
+			else if(this.isAnyEqual(q, this.options.gO('ISDAY')))
+				return Math.floor((Math.random()*27)); //TODO unhardcode
+			else if(this.isAnyEqual(q, this.options.gO('ISMONTH')))
+				return Math.floor((Math.random()*12)); //TODO unhardcode
+			else if(this.isAnyEqual(q, this.options.gO('ISYEAR')))
+				return Math.floor((Math.random()*300)+1800); //TODO unhardcode
 			else if(this.isAnyEqual(q, this.options.gO('NUMBER')))
-				return (Math.random()*10000); //TODO unhardcode
+				return Math.floor((Math.random()*10000)); //TODO unhardcode
 			else 
 				return this.generateWord();
 		}
@@ -247,10 +257,13 @@ function valueGenerator(){
 
 }
 
-if(!window.vG) 
-	window.vG=new valueGenerator();
-
-document.onkeyup=function(e){window.vG.aHotKey(e)};
+(function(){
+  chrome.extension.sendRequest(null, function(response) {
+	localStorageCopy=response.result?response.result:{};
+	if(!window.vG) 
+		window.vG=new valueGenerator();
+	document.onkeyup=function(e){window.vG.aHotKey(e)};
+  });
 
 
 })();

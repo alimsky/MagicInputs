@@ -12,6 +12,8 @@ function saveStateOfSegments(){
 function loadStateOfSegments(){
 	if(localStorage['MagicInputs_optionsSegments'])
 		ss=localStorage['MagicInputs_optionsSegments'].split(',');
+	else
+		return;
 	for(t in ss){
 		if(ss[t]==1){ 
 			$($('segment')[t]).addClass('opened');
@@ -33,7 +35,7 @@ $(document).ready(function(){
 	pos_pages_i();
 
 	loadStateOfSegments();
-
+/*
 	$('segment').each(function(id, sw){
 		$(sw).click(function(){
 			if($('content', this).is(':hidden'))
@@ -45,12 +47,21 @@ $(document).ready(function(){
 			}
 		});
 	});
-	$('segment switcher').each(function(id, sw){
+	*/
+	$('segment switcher, segment h3').each(function(id, sw){
 		$(sw).click(function(e){
-			$('content', $(this).parent()).slideUp(window.animationFast/2,  'easeOutCirc');
-			$(this).parent().addClass('closed');
-			$(this).parent().removeClass('opened');
-			saveStateOfSegments();
+			if($('content', $(this).parent()).is(':hidden'))
+			{
+				$('content', $(this).parent()).slideDown(window.animationFast, window.animationEasy);
+				$(this).parent().removeClass('closed');
+				$(this).parent().addClass('opened');
+				saveStateOfSegments();
+			}else{
+				$('content', $(this).parent()).slideUp(window.animationFast/2,  'easeOutCirc');
+				$(this).parent().addClass('closed');
+				$(this).parent().removeClass('opened');
+				saveStateOfSegments();
+			}
 		});
 	});
 

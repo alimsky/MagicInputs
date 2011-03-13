@@ -1,7 +1,7 @@
 {
-	"name": "Magic Inputs Autofill",
-	"version": "0.7",
-	"description": "This extension allows you to fill up all the inputs on the page, including selects, dropdowns and so on.",
+	"name": "Magic Inputs Filler",
+	"version": "1.0",
+	"description": "This extension allows you to fill up all the inputs on the page, including selects, dropdowns and so on with random values depending on its type.",
 	"icons": { "16": "images/icon16.png",
 						 "48": "images/icon48.png",
 						"128": "images/icon128.png" },
@@ -22,7 +22,7 @@
 		"matches": [ "<all_urls>" ],
 		"js": [ "magicfill.js" ]
 	}],
-
+   "update_url": "http://clients2.google.com/service/update2/crx",
   "minimum_chrome_version": "5.0"
 }
 

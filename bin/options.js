@@ -1,4 +1,10 @@
 window.sts={};
+window.miText={
+	not_assigned:'(not assigned)',
+	pressHotkey:'Press the hotkey',
+	saved:'Options saved.\nNote, that you should reload opened tabs to make changes work.',
+	unsavedOut:'Your options has not been saved.'
+};
 function storeOption(optionName, optionValue){
 	sts[optionName]=optionValue;
 }
@@ -18,14 +24,23 @@ function convertEventToHotkeyString(e){
 }
 
 function dropHotkeyAssign(){
-			$('.hotkey-input').each(function(i,b){$(b).removeClass('assign-in-process')});
+			$('.hotkey-input').each(function(i,b){
+				if($(b).val()==window.miText['pressHotkey']){
+					$(b).val($(b)[0].previousVal)
+				}
+				$(b).removeClass('assign-in-process')
+			});
 			window.hotKeyBind='';
 }
 
 $(document).keyup(function(e){
 	if((window.hotKeyBind)&&(window.hotKeyBind!='')){ // should we care about this key event?
-		if(!e.keyCode) return; // if whatever..?
-		if(27==e.keyCode) dropHotkeyAssign(); //If Esc
+		if((!e.keyCode)||
+			( ((e.keyCode>127)&&(e.keyCode<162)) || (e.keyCode<31) )
+			){
+				dropHotkeyAssign();
+				return;
+			}
 		var ch=convertEventToHotkeyString(e); // to show in input
 		$('#hotkey_'+window.hotKeyBind+'_input').val(ch); //...
 		storeOption(window.hotKeyBind+'_hotkey',{ctrlKey:e.ctrlKey, altKey:e.altKey, shiftKey:e.shiftKey, keyCode:e.keyCode}); // save this
@@ -41,53 +56,53 @@ function highlightChange(el){
 	}
 	$(pEl).addClass('changed');
 	$('changed', $(pEl)).fadeIn();
-	window.onbeforeunload=function(){return "You didn't save your choice, ok?";}
+	window.onbeforeunload=function(){return window.miText['unsavedOut'];}
 }
 
 
 //Load options
 $(document).ready(function(){
 	//get from localStorage and parse
-	if(localStorage['MagicInputs_defaultPreset'])
+	if(localStorage['MagicInputs_defaultPreset']){
 		localSettings =	JSON.parse(localStorage['MagicInputs_defaultPreset']);
-	else
-		return;
 
-	//Move it to stored
-	sts=localSettings;	
+		//Move it to stored
+		sts=localSettings;	
 
-	//And show on frontend
-	if(sts['USE_HOTKEYS'])
-		$('#use_hotkeys').attr('checked','checked');
+		//And show on frontend
+		if(sts['USE_HOTKEYS'])
+			$('#use_hotkeys').attr('checked','checked');
 
-	if(sts['typical_hotkey'])
-		$('#hotkey_typical_input').val(convertEventToHotkeyString(sts['typical_hotkey']));
+		if(sts['typical_hotkey'])
+			$('#hotkey_typical_input').val(convertEventToHotkeyString(sts['typical_hotkey']));
 
-	if(sts['PASSWORD_TYPE'])
-		$('input[name=PASSWORD_TYPE][value=' + sts['PASSWORD_TYPE'] + ']').attr('checked','checked');
+		if(sts['PASSWORD_TYPE'])
+			$('input[name=PASSWORD_TYPE][value=' + sts['PASSWORD_TYPE'] + ']').attr('checked','checked');
 
-	if(sts['PASSWORD_DEF'])
-		$('input[name=PASSWORD_DEF]').val(sts['PASSWORD_DEF']);
+		if(sts['PASSWORD_DEF'])
+			$('input[name=PASSWORD_DEF]').val(sts['PASSWORD_DEF']);
 
-	if(sts['EMAIL_USERNAME_TYPE'])
-		$('input[name=EMAIL_USERNAME_TYPE][value=' + sts['EMAIL_USERNAME_TYPE'] + ']').attr('checked','checked');
+		if(sts['EMAIL_USERNAME_TYPE'])
+			$('input[name=EMAIL_USERNAME_TYPE][value=' + sts['EMAIL_USERNAME_TYPE'] + ']').attr('checked','checked');
 
-	if(sts['EMAIL_USERNAME_DEF'])
-		$('input[name=EMAIL_USERNAME_DEF]').val(sts['EMAIL_USERNAME_DEF']);
+		if(sts['EMAIL_USERNAME_DEF'])
+			$('input[name=EMAIL_USERNAME_DEF]').val(sts['EMAIL_USERNAME_DEF']);
 
-	if(sts['EMAIL_HOSTING_TYPE'])
-		$('input[name=EMAIL_HOSTING_TYPE][value=' + sts['EMAIL_HOSTING_TYPE'] + ']').attr('checked','checked');
+		if(sts['EMAIL_HOSTING_TYPE'])
+			$('input[name=EMAIL_HOSTING_TYPE][value=' + sts['EMAIL_HOSTING_TYPE'] + ']').attr('checked','checked');
 
-	var sss=sts['EMAIL_HOSTING']+'';
-	if(sts['EMAIL_HOSTING'])
-		$('textarea[name=EMAIL_HOSTING]').val(sss.replace(/,/g, ', '));
+		var sss=sts['EMAIL_HOSTING']+'';
+		if(sts['EMAIL_HOSTING'])
+			$('textarea[name=EMAIL_HOSTING]').val(sss.replace(/,/g, ', '));
 
+		//if this feature checked, highlight the inputs for this segment
+		if(!$('#use_hotkeys')[0].checked)
+			$('#hotkey__content block.hotkey *').each(function(i,el){$(el).fadeTo(500,0.5)});	
+		else
+			$('#hotkey__content block.hotkey *').each(function(i,el){$(el).fadeTo(300,1)});	
+	}
 
-
-
-//Now events to input
-
-
+	//Now events to input
 
 	$('input[type=radio]').each(function(i,el){
 		if($(el).hasClass('__dont_save')) return;
@@ -103,6 +118,12 @@ $(document).ready(function(){
 		  storeOption(this.name, this.checked);
 		})
 	});
+	$('#use_hotkeys').click(function(){
+		if(!$('#use_hotkeys')[0].checked)
+			$('#hotkey__content block.hotkey *').each(function(i,el){$(el).fadeTo(500,0.5)});	
+		else
+			$('#hotkey__content block.hotkey *').each(function(i,el){$(el).fadeTo(300,1)});	
+	})
 	$('textarea, input[type=text]').each(function(i,el){
 		if($(el).hasClass('__dont_save')) return;
 		$(el).change(function(){ //maybe somebode changed inputs, we should save it
@@ -118,9 +139,11 @@ $(document).ready(function(){
 		  storeOption(this.name, $(this).val().split(' ').join('').split(','));
 		})
 	});
-	$('#hotkey_typical').click(function(){	//assign typical hotkey
+	$('#hotkey_typical,	#hotkey_typical_input').mouseup(function(){	//assign typical hotkey
 		dropHotkeyAssign();		//drop others
 		window.hotKeyBind='typical';	//main reason
+		$('#hotkey_typical_input')[0].previousVal = $('#hotkey_typical_input').val();
+		$('#hotkey_typical_input').val(window.miText['pressHotkey']);
 		$('#hotkey_typical_input').addClass('assign-in-process');  //helps to see what we're going to assign
 	});
 });
@@ -130,6 +153,7 @@ function save_options() {
 	localStorage['MagicInputs_defaultPreset']=(JSON.stringify(window.sts));
 	$('changed').fadeOut();
 	window.onbeforeunload=null;
+	alert(window.miText['saved']);
 }
 
 
