@@ -43,6 +43,7 @@ function magicInputsOptions(){
 				this.setOption('EMAIL',['mail'], storage);
 				this.setOption('CONFIRM',['confirm'], storage);
 				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'code'], storage);
+				this.setOption('ISPHONE',['phone'], storage);
 				this.setOption('ISDAY',['day'], storage);
 				this.setOption('ISMONTH',['month'], storage);
 				this.setOption('ISYEAR',['year'], storage);
@@ -94,7 +95,14 @@ function valueGenerator(){
 
 		//generate secure password
 		this.generatePassword=function(){
-			return this.generateWord(16);
+			var pass='';
+			var diapNum=0;
+			var diap=[{l:10, s:48}, {l:10, s:48}, {l:26, s:97}, {l:4, s:35}, {l:26, s:97}];	
+				while (pass.length < 16){
+					diapNum=Math.floor(Math.random()*3);
+					pass += (String.fromCharCode(Math.floor(Math.random()*diap[diapNum]['l']+diap[diapNum]['s'])));
+				}
+			return pass;
 		}
 
 		//generate whole phrases, inserting big letter in beggining and the dot at the end. Writing comments is so boring...
@@ -169,7 +177,7 @@ function valueGenerator(){
 		//Return random value based on id, class and name of input
 		this.valueBasedOnType=function(inp){
 			//generate full string
-			q=inp.id+' '+inp.name+' '+inp.className;
+			q=inp.id+inp.name+inp.className;
 			//choose type and generate
 			if(this.isAnyEqual(q, this.options.gO('CONFIRM')))
 				return this.lastValueBOT;
@@ -177,6 +185,8 @@ function valueGenerator(){
 				return this.generateEmail();
 			else if(this.isAnyEqual(q, this.options.gO('ISDAY')))
 				return Math.floor((Math.random()*27)); //TODO unhardcode
+			else if(this.isAnyEqual(q, this.options.gO('ISPHONE')))
+				return Math.floor((Math.random()*49))+'(' + Math.floor((Math.random()*999)) +')' + Math.floor((Math.random()*899)+100) + '-'+Math.floor((Math.random()*89)+10)+'-'+Math.floor((Math.random()*89)+10); //TODO unhardcode
 			else if(this.isAnyEqual(q, this.options.gO('ISMONTH')))
 				return Math.floor((Math.random()*12)); //TODO unhardcode
 			else if(this.isAnyEqual(q, this.options.gO('ISYEAR')))
@@ -201,7 +211,7 @@ function valueGenerator(){
 					else if(el[i].type=="password")
 
 						if(this.options.gO('PASSWORD_TYPE')=='random')
-							el[i].value=this.generateWord();
+							el[i].value=this.generatePassword();
 						else if(this.options.gO('PASSWORD_TYPE')=='special')
 						{
 							var pass=this.generatePassword();
