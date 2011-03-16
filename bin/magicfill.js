@@ -58,8 +58,8 @@ function magicInputsOptions(){
 				this.setOption('EMAIL_HOSTING_TYPE','one', storage);
 				this.setOption('EMAIL_HOSTING',['gmail.com','hotmail.com','yahoo.com','mail.ru'], storage);
 
-				this.setOption('CONSONANTS',['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh', 'fr','q'], storage);
-				this.setOption('VOWELS',['a','e','i','o','u','y', 'oo', 'ou', 'ae', 'ea'], storage);
+				this.setOption('CONSONANTS',['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh','fr','th','q','k', 'l','m','n','p','s','t','b','c','d','f','g'], storage);
+				this.setOption('VOWELS',['a','e','i','o','u','y','a','e','i','o','u','y','oo', 'ou', 'ae', 'ea'], storage);
 		}
 		//Put presetted to defaults
 		this.setHardcodedOptions(this.defaultOptions);
