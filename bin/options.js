@@ -91,6 +91,15 @@ $(document).ready(function(){
 		if(sts['EMAIL_HOSTING_TYPE'])
 			$('input[name=EMAIL_HOSTING_TYPE][value=' + sts['EMAIL_HOSTING_TYPE'] + ']').attr('checked','checked');
 
+		if(sts['CARD_TYPE'])
+			$('input[name=CARD_TYPE][value=' + sts['CARD_TYPE'] + ']').attr('checked','checked');
+
+		if(sts['CARDNUMBER_DEF'])
+			$('input[name=CARDNUMBER_DEF]').val(sts['CARDNUMBER_DEF']);
+
+		if(sts['CARDCVV_DEF'])
+			$('input[name=CARDCVV_DEF]').val(sts['CARDCVV_DEF']);
+
 		var sss=sts['EMAIL_HOSTING']+'';
 		if(sts['EMAIL_HOSTING'])
 			$('textarea[name=EMAIL_HOSTING]').val(sss.replace(/,/g, ', '));

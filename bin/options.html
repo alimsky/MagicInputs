@@ -91,6 +91,29 @@
 			  </block>
 			</content>
 		</segment>
+		<segment class="additional closed">
+			<h3>Additional Types</h3>
+			<changed></changed>
+			<switcher></switcher>
+			<content style="display:none;">
+				<h4>Credit Cards</h4>
+			
+			  <block class="radiobox">
+				  <input type="radio" id="cardnumber_random" name="CARD_TYPE" value="random" checked="checked" />
+				  <label for="cardnumber_random">Generate random</label>
+			  </block>
+			  <block class="radiobox">
+				  <input type="radio" id="cardnumber_constant" name="CARD_TYPE" value="constant" />
+				  <label for="cardnumber_constant">Use constant number:</label>
+				  <input type="text" value="4111111111111111" name="CARDNUMBER_DEF" />
+
+				  <inblock>
+				  <label for="cardnumber_constant">and CVV:</label>
+				  <input type="text" value="123" name="CARDCVV_DEF" />
+				  </inblock>
+			  </block>
+			</content>
+		</segment>
 		<buttons>
 			<button onclick="save_options(); return false;">Save</button>
 			<a id="about_link" href="javascript:go_right();">About</a>

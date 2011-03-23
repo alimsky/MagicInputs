@@ -43,8 +43,13 @@ function magicInputsOptions(){
 				this.setOption('EMAIL',['mail'], storage);
 				this.setOption('CONFIRM',['confirm'], storage);
 				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'code'], storage);
-				this.setOption('CREDITCARDNUMBER',['cc_number', 'cc-number', 'cardnumber', 'credit_card'], storage);
-				this.setOption('CREDITCARDCVV',['cvv'], storage);
+
+				this.setOption('CARD_TYPE','random', storage);
+				this.setOption('ISCREDITCARDNUMBER',['cc_number', 'cc-number', 'cardnumber', 'credit_card'], storage);
+				this.setOption('ISCREDITCARDCVV',['cvv'], storage);
+				this.setOption('CARDNUMBER_DEF', '4111111111111111', storage);
+				this.setOption('CARDCVV_DEF', '123', storage);
+
 				this.setOption('ISPHONE',['phone', 'fax'], storage);
 				this.setOption('ISDAY',['day'], storage);
 				this.setOption('ISMONTH',['month'], storage);
@@ -69,6 +74,7 @@ function magicInputsOptions(){
 window.o = new magicInputsOptions();
 function valueGenerator(){
 
+		this.iframes=[];
 		this.options=new magicInputsOptions();
 
 		//generate word function
@@ -134,6 +140,16 @@ function valueGenerator(){
 				return this.generateWord(null, true)+'@'+this.generateWord(null, true)+'.com';
 		}
 
+		//generate credit card number
+		this.generateCardNumber=function(t){
+			if(!t) t=16
+			var	numb=''; 
+			for (i=0;i<t;i++){
+				numb+=Math.floor(Math.random()*10);
+			}
+			return numb;
+		}
+
 		//Select random option in dropdown... but it works weird. TODO:Look into it.
 		this.selectValue=function(select_control){
 				rVal = Math.floor(Math.random()*(select_control.options.length-1))+1;
@@ -185,6 +201,16 @@ function valueGenerator(){
 				return this.lastValueBOT;
 			else if(this.isAnyEqual(q, this.options.gO('EMAIL')))
 				return this.generateEmail();
+			else if(this.isAnyEqual(q, this.options.gO('ISCREDITCARDNUMBER')))
+				if(this.options.gO('CARD_TYPE')=='random')
+					return this.generateCardNumber();
+				else
+					return this.options.gO('CARDNUMBER_DEF');
+			else if(this.isAnyEqual(q, this.options.gO('ISCREDITCARDCVV')))
+				if(this.options.gO('CARD_TYPE')=='random')
+					return this.generateCardNumber(3);
+				else
+					return this.options.gO('CARDCVV_DEF');
 			else if(this.isAnyEqual(q, this.options.gO('ISDAY')))
 				return Math.floor((Math.random()*27)); //TODO unhardcode
 			else if(this.isAnyEqual(q, this.options.gO('ISPHONE')))
@@ -195,16 +221,18 @@ function valueGenerator(){
 				return Math.floor((Math.random()*300)+1800); //TODO unhardcode
 			else if(this.isAnyEqual(q, this.options.gO('NUMBER')))
 				return Math.floor((Math.random()*10000)); //TODO unhardcode
-			else if(this.isAnyEqual(q, this.options.gO('CREDITCARTNUMBER')))
-				return Math.floor((Math.random()*10000)); //TODO unhardcode
 			else 
 				return this.generateWord();
 		}
 
-		this.scanTheDomAndMakeSomeMagic=function(magicMode){
+		this.scanTheDomAndMakeSomeMagic=function(scanScope){
 				var stackMessages=[];
+				if(!scanScope){	
+					this.frLevel=0;
+					scanScope=document;
+					}
 				//Find all the inputs, and operate with them
-				el=document.getElementsByTagName('input');
+				el=scanScope.getElementsByTagName('input');
 				for(var i in el) {
 					if((el[i].type=="text")||(el[i].type=="search")){
 						this.lastValueBOT=this.valueBasedOnType(el[i]);
@@ -233,16 +261,23 @@ function valueGenerator(){
 				}
 
 				//Find all the textareas and insert phrases in it.
-				el=document.getElementsByTagName('textarea');
+				el=scanScope.getElementsByTagName('textarea');
 				for(var i=0; i<el.length; i++) {
 					el[i].value=this.generatePhrase();
 				}
 
 				//Select something in all selects
-				el=document.getElementsByTagName('select');
+				el=scanScope.getElementsByTagName('select');
 				for(var i=0; i<el.length; i++) {
 					this.selectValue(el[i]);
 				}
+
+				this.frLevel++;
+				this.iframes[this.frLevel]=scanScope.getElementsByTagName('iframe');
+				for(var i=0; i<this.iframes[this.frLevel].length; i++) {
+					this.scanTheDomAndMakeSomeMagic(this.iframes[this.frLevel][i].contentDocument);
+				}
+				this.frLevel--;
 
 				if(stackMessages.length>0){
 					message='';
@@ -251,7 +286,6 @@ function valueGenerator(){
 					}
 					alert(message);
 				}
-				return 'All right!';
 		}
 
 		this.aHotKey=function(eve){

@@ -111,6 +111,14 @@ block{
 	margin-bottom:5px;
 	display:block;
 }
+inblock{
+	float:right;
+	margin-right:10px;
+}
+inblock label{
+	text-align:right;
+	margin-right:10px;
+}
 comment{
 	font-family:'Georgia', Arial, Verdana;
 	font-style:italic;
