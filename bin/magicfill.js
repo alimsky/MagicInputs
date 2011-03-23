@@ -43,7 +43,9 @@ function magicInputsOptions(){
 				this.setOption('EMAIL',['mail'], storage);
 				this.setOption('CONFIRM',['confirm'], storage);
 				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'code'], storage);
-				this.setOption('ISPHONE',['phone'], storage);
+				this.setOption('CREDITCARDNUMBER',['cc_number', 'cc-number', 'cardnumber', 'credit_card'], storage);
+				this.setOption('CREDITCARDCVV',['cvv'], storage);
+				this.setOption('ISPHONE',['phone', 'fax'], storage);
 				this.setOption('ISDAY',['day'], storage);
 				this.setOption('ISMONTH',['month'], storage);
 				this.setOption('ISYEAR',['year'], storage);
@@ -177,7 +179,7 @@ function valueGenerator(){
 		//Return random value based on id, class and name of input
 		this.valueBasedOnType=function(inp){
 			//generate full string
-			q=inp.id+inp.name+inp.className;
+			q=(inp.id+inp.name+inp.className).toLowerCase();
 			//choose type and generate
 			if(this.isAnyEqual(q, this.options.gO('CONFIRM')))
 				return this.lastValueBOT;
@@ -192,6 +194,8 @@ function valueGenerator(){
 			else if(this.isAnyEqual(q, this.options.gO('ISYEAR')))
 				return Math.floor((Math.random()*300)+1800); //TODO unhardcode
 			else if(this.isAnyEqual(q, this.options.gO('NUMBER')))
+				return Math.floor((Math.random()*10000)); //TODO unhardcode
+			else if(this.isAnyEqual(q, this.options.gO('CREDITCARTNUMBER')))
 				return Math.floor((Math.random()*10000)); //TODO unhardcode
 			else 
 				return this.generateWord();
