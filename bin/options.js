@@ -109,6 +109,10 @@ $(document).ready(function(){
 			$('#hotkey__content block.hotkey *').each(function(i,el){$(el).fadeTo(500,0.5)});	
 		else
 			$('#hotkey__content block.hotkey *').each(function(i,el){$(el).fadeTo(300,1)});	
+
+		$('#targetblank').attr('checked',sts['TARGET_BLANK_FORMS']?'checked':'');
+		$('#captchas_fields').attr('checked',sts['DONT_FILL_CAPTCHAS']?'checked':'');
+		
 	}
 
 	//Now events to input

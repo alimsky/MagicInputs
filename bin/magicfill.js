@@ -28,7 +28,7 @@ function magicInputsOptions(){
 					this.localSettings=[];
 
 
-			if(this.localSettings[optionName]){
+			if(optionName in this.localSettings){
 					return this.localSettings[optionName];
 			}
 
@@ -55,6 +55,9 @@ function magicInputsOptions(){
 				this.setOption('ISMONTH',['month'], storage);
 				this.setOption('ISYEAR',['year'], storage);
 
+				this.setOption('ISCAPTCHA',['captch'], storage);
+				this.setOption('DONT_FILL_CAPTCHAS', true, storage);
+
 				this.setOption('USE_HOTKEYS',false, storage);
 				this.setOption('PASSWORD_TYPE', 'const', storage);
 				this.setOption('PASSWORD_DEF',['123123'], storage);
@@ -67,6 +70,7 @@ function magicInputsOptions(){
 
 				this.setOption('CONSONANTS',['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh','fr','th','q','k', 'l','m','n','p','s','t','b','c','d','f','g'], storage);
 				this.setOption('VOWELS',['a','e','i','o','u','y','a','e','i','o','u','y','oo', 'ou', 'ae', 'ea'], storage);
+				this.setOption('TARGET_BLANK_FORMS', false, storage);
 		}
 		//Put presetted to defaults
 		this.setHardcodedOptions(this.defaultOptions);
@@ -75,6 +79,7 @@ window.o = new magicInputsOptions();
 function valueGenerator(){
 
 		this.iframes=[];
+		this.frames=[];
 		this.options=new magicInputsOptions();
 
 		//generate word function
@@ -199,6 +204,8 @@ function valueGenerator(){
 			//choose type and generate
 			if(this.isAnyEqual(q, this.options.gO('CONFIRM')))
 				return this.lastValueBOT;
+			else if(this.isAnyEqual(q, this.options.gO('ISCAPTCHA'))&&(this.options.gO('DONT_FILL_CAPTCHAS')==true))
+				return ''
 			else if(this.isAnyEqual(q, this.options.gO('EMAIL')))
 				return this.generateEmail();
 			else if(this.isAnyEqual(q, this.options.gO('ISCREDITCARDNUMBER')))
@@ -236,7 +243,8 @@ function valueGenerator(){
 				for(var i in el) {
 					if((el[i].type=="text")||(el[i].type=="search")){
 						this.lastValueBOT=this.valueBasedOnType(el[i]);
-						el[i].value=this.lastValueBOT;
+						if(this.lastValueBOT!='')
+							el[i].value=this.lastValueBOT;
 						if(el[i].onkeydown) el[i].onkeydown();
 						if(el[i].onkeyup) el[i].onkeyup();
 					}
@@ -272,10 +280,21 @@ function valueGenerator(){
 					this.selectValue(el[i]);
 				}
 
+				if(this.options.gO('TARGET_BLANK_FORMS')){
+				//add target blank
+					el=scanScope.getElementsByTagName('form');
+					for(var i=0; i<el.length; i++) {
+						el[i].target='_blank';
+					}
+				}
 				this.frLevel++;
 				this.iframes[this.frLevel]=scanScope.getElementsByTagName('iframe');
 				for(var i=0; i<this.iframes[this.frLevel].length; i++) {
 					this.scanTheDomAndMakeSomeMagic(this.iframes[this.frLevel][i].contentDocument);
+				}
+				this.frames[this.frLevel]=scanScope.getElementsByTagName('frame');
+				for(var i=0; i<this.frames[this.frLevel].length; i++) {
+					this.scanTheDomAndMakeSomeMagic(this.frames[this.frLevel][i].contentDocument);
 				}
 				this.frLevel--;
 

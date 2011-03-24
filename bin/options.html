@@ -114,6 +114,21 @@
 			  </block>
 			</content>
 		</segment>
+		<segment class="additional closed">
+			<h3>Common options</h3>
+			<changed></changed>
+			<switcher></switcher>
+			<content style="display:none;">
+				<block class="radiobox">
+					<input type="checkbox" id="captchas_fields" name="DONT_FILL_CAPTCHAS" value="captchas_fields" checked="checked" />
+					<label class="long" for="captchas_fields">Do not fill captcha's fields</label>
+				</block>
+				<block class="radiobox">
+					<input type="checkbox" id="targetblank" name="TARGET_BLANK_FORMS" value="targetblank" />
+					<label class="long" for="targetblank">Add <em>TARGET="_blank"</em> attribute to forms</label>
+				</block>
+			</content>
+		</segment>
 		<buttons>
 			<button onclick="save_options(); return false;">Save</button>
 			<a id="about_link" href="javascript:go_right();">About</a>
@@ -124,6 +139,23 @@
 	<h1>About Magic Inputs</h1>
 	<p>Plugin written by Serj Alimsky.</p>
 	<p>Feel free to <a href="mailto:Serj Alimsky <alimsky@gmail.com>">ask</a> me any questions: </p>
+	<changelog>
+	<h3>Changelog</h2>
+	<h4>1.0.2</h3>
+	<ul>
+		<li>Definition became stronger // Hello evolution</li>
+		<li>Iframes and Frames not a problem for now (HOORAY!) //Hello gmail, phpMyAdmin and Denis</li>
+		<li>Credit cards type added (with an option) //Hello Alex Z.</li>
+		<li>Common types support added</li>
+		<li>CAPTCHA fields now left alone (may turn back options) //Hello anonymous</li>
+		<li>Target="_blank" for forms option added (need to turn on in options to activate) //Hello KOS_MOS.Habrahabr.ru</li>
+	</ul>
+	<h4>1.0.1</h3>
+	<ul>
+		<li>Minor bugs fixed</li>
+		<li>Support for some inputs added (phones, cards etc.)</li>
+	</ul>
+	</changelog>
 	<buttons>
 		<a id="options_link" href="javascript:go_left();">&larr; Back to Options</a>
 	</buttons>
