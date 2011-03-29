@@ -33,6 +33,12 @@ $(document).ready(function(){
 	page_poss['options']=2; page_poss['about']=3;
 	$(window).resize(pos_pages_i);
 	pos_pages_i();
+	$('#save_button').click(function(e){
+		_gaq.push(['_trackEvent', 'o_save']);
+	});
+	$('#about_link').click(function(e){
+		_gaq.push(['_trackEvent', 'o_about']);
+	});
 
 	loadStateOfSegments();
 /*

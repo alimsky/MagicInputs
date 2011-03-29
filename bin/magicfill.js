@@ -316,6 +316,7 @@ function valueGenerator(){
 				(tH.altKey==eve.altKey)&&
 				(tH.keyCode==eve.keyCode))
 				{
+					chrome.extension.sendRequest({'gag_event':'f_hotkey'}, function(response){});
 					this.scanTheDomAndMakeSomeMagic();
 			}
 //			if(eve.ctrlKey&&eve.altKey)

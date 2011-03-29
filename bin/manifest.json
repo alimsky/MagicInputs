@@ -1,6 +1,6 @@
 {
 	"name": "Magic Inputs Filler",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Extension allows you to fill all the inputs, textareas and selects on the page with random values depending on it's type.",
 	"icons": { "16": "images/icon16.png",
 						 "48": "images/icon48.png",
