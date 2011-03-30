@@ -290,7 +290,8 @@ function valueGenerator(){
 				this.frLevel++;
 				this.iframes[this.frLevel]=scanScope.getElementsByTagName('iframe');
 				for(var i=0; i<this.iframes[this.frLevel].length; i++) {
-					this.scanTheDomAndMakeSomeMagic(this.iframes[this.frLevel][i].contentDocument);
+					if(this.iframes[this.frLevel][i].contentDocument)
+						this.scanTheDomAndMakeSomeMagic(this.iframes[this.frLevel][i].contentDocument);
 				}
 				this.frames[this.frLevel]=scanScope.getElementsByTagName('frame');
 				for(var i=0; i<this.frames[this.frLevel].length; i++) {
@@ -316,7 +317,7 @@ function valueGenerator(){
 				(tH.altKey==eve.altKey)&&
 				(tH.keyCode==eve.keyCode))
 				{
-					chrome.extension.sendRequest({'gag_event':'f_hotkey'}, function(response){});
+					chrome.extension.sendRequest({'gag_category':'fillFunction', 'gag_event':'hotkey'}, function(response){});
 					this.scanTheDomAndMakeSomeMagic();
 			}
 //			if(eve.ctrlKey&&eve.altKey)

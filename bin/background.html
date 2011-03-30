@@ -5,13 +5,13 @@
 chrome.extension.onRequest.addListener(
 	function(request, sender, sendResponse) {
 	if(request!=null && request.hasOwnProperty('gag_event')){
-		_gaq.push(['_trackEvent', request['gag_event']]);
+		_gaq.push(['_trackEvent', request['gag_category'], request['gag_event']]);
 	}else{
 		sendResponse({result: localStorage});
 	}
 });
 chrome.browserAction.onClicked.addListener(function(){
-	_gaq.push(['_trackEvent', 'f_browserAction']);
+	_gaq.push(['_trackEvent', 'fillFunction', 'browserAction']);
 	chrome.tabs.executeScript(null, {code:'window.vG.scanTheDomAndMakeSomeMagic();'});
 });
 var _gaq = _gaq || [];

@@ -34,10 +34,10 @@ $(document).ready(function(){
 	$(window).resize(pos_pages_i);
 	pos_pages_i();
 	$('#save_button').click(function(e){
-		_gaq.push(['_trackEvent', 'o_save']);
+		_gaq.push(['_trackEvent', 'options', 'saveClicked']);
 	});
 	$('#about_link').click(function(e){
-		_gaq.push(['_trackEvent', 'o_about']);
+		_gaq.push(['_trackEvent', 'options', 'aboutClicked']);
 	});
 
 	loadStateOfSegments();
