@@ -112,6 +112,7 @@ $(document).ready(function(){
 
 		$('#targetblank').attr('checked',sts['TARGET_BLANK_FORMS']?'checked':'');
 		$('#captchas_fields').attr('checked',sts['DONT_FILL_CAPTCHAS']?'checked':'');
+		//$('#clear_inputs_events').attr('checked',sts['CLEAR_INPUTS_EVENTS']?'checked':'');
 		
 	}
 
@@ -122,6 +123,7 @@ $(document).ready(function(){
 		$(el).click(function(){ //maybe somebode clicked radioboxes, we should save it
 		  highlightChange(this);
 		  storeOption(this.name, this.value);
+			_gaq.push(['_trackEvent', 'options', this.name]);
 		})
 	});
 	$('input[type=checkbox]').each(function(i,el){
@@ -129,6 +131,7 @@ $(document).ready(function(){
 		$(el).click(function(){ //maybe somebody clicked checkboxes, we should save it
 		  highlightChange(this);
 		  storeOption(this.name, this.checked);
+			_gaq.push(['_trackEvent', 'options', this.name]);
 		})
 	});
 	$('#use_hotkeys').click(function(){
@@ -136,12 +139,14 @@ $(document).ready(function(){
 			$('#hotkey__content block.hotkey *').each(function(i,el){$(el).fadeTo(500,0.5)});	
 		else
 			$('#hotkey__content block.hotkey *').each(function(i,el){$(el).fadeTo(300,1)});	
+		_gaq.push(['_trackEvent', 'options', 'hotkeys clicked']);
 	})
 	$('textarea, input[type=text]').each(function(i,el){
 		if($(el).hasClass('__dont_save')) return;
 		$(el).change(function(){ //maybe somebode changed inputs, we should save it
 		  highlightChange(this);
 		  storeOption(this.name, $(this).val());
+			_gaq.push(['_trackEvent', 'options', this.name]);
 		})
 	});
 	$('textarea.save_as_array, input.save_as_array[type=text]').each(function(i,el){
@@ -150,6 +155,7 @@ $(document).ready(function(){
 		$(el).change(function(){ //maybe somebode changed inputs, we should save it
 		  highlightChange(this);
 		  storeOption(this.name, $(this).val().split(' ').join('').split(','));
+			_gaq.push(['_trackEvent', 'options', this.name]);
 		})
 	});
 	$('#hotkey_typical,	#hotkey_typical_input').mouseup(function(){	//assign typical hotkey

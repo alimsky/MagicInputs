@@ -42,7 +42,7 @@ function magicInputsOptions(){
 
 				this.setOption('EMAIL',['mail'], storage);
 				this.setOption('CONFIRM',['confirm'], storage);
-				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'code'], storage);
+				this.setOption('NUMBER',['numb', 'integer', 'price', 'size', 'qty', 'code'], storage);
 
 				this.setOption('CARD_TYPE','random', storage);
 				this.setOption('ISCREDITCARDNUMBER',['cc_number', 'cc-number', 'cardnumber', 'credit_card'], storage);
@@ -71,6 +71,8 @@ function magicInputsOptions(){
 				this.setOption('CONSONANTS',['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh','fr','th','q','k', 'l','m','n','p','s','t','b','c','d','f','g'], storage);
 				this.setOption('VOWELS',['a','e','i','o','u','y','a','e','i','o','u','y','oo', 'ou', 'ae', 'ea'], storage);
 				this.setOption('TARGET_BLANK_FORMS', false, storage);
+
+				this.setOption('CLEAR_INPUTS_EVENTS', true, storage);
 		}
 		//Put presetted to defaults
 		this.setHardcodedOptions(this.defaultOptions);
@@ -187,10 +189,18 @@ function valueGenerator(){
 			return ar[Math.floor(Math.random()*ar.length)];
 		}
 
+		//removes event 
+		this.removeEvent=function(el, actualEventName){
+			  if (element.removeEventListener)
+				element.removeEventListener(actualEventName, responder, false);
+			  else
+				element.detachEvent('on' + actualEventName, responder);
+		}
+
 		//Is any entries of the string ST equal to any lements of Array AR
 		this.isAnyEqual=function(st, ar){
 			for (elm in ar){
-				if(st.indexOf(ar[elm])>0){
+				if(st.indexOf(ar[elm])>=0){
 					return true;
 				}
 			}
