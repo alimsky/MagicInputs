@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/"?>
+<dialog id="clockDialog"
+    title="Magic Inputs Filler Options"
+    buttons="Save">
+	  <hbox align="center">
+	    <label value="Current Time:" />
+	    <textbox id="currentTime" />
+	  </hbox>
+</dialog>

@@ -1,0 +1,8 @@
+<!ENTITY magicinputsfiller.label "Your localized menuitem">
+<!ENTITY magicinputsfillerContext.label "Your Menuitem">
+<!ENTITY magicinputsfillerContext.accesskey "Y">
+<!ENTITY magicinputsfillerToolbarButton.label "Your Toolbar Button">
+<!ENTITY magicinputsfillerToolbarButton.tooltip "This is your toolbar button!">
+<!ENTITY magicinputsfillerSidebar.label "Your Sidebar">
+<!ENTITY magicinputsfillerToolbar.name  "example">
+<!ENTITY magicinputsfillerToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &magicinputsfillerToolbar.name;">

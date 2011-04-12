@@ -1,0 +1,3 @@
+content magicinputsfiller content/
+overlay chrome://browser/content/browser.xul chrome://magicinputsfiller/content/overlay.xul
+style chrome://browser/content/browser.xul chrome://magicinputsfiller/skin/overlay.css

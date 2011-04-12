@@ -1,0 +1,8 @@
+#magicIFButton{
+  list-style-image:
+  url(chrome://helloworld/skin/icon48.png);
+}
+
+toolbar[iconsize="small"] #magicIFButton{
+  list-style-image: url(chrome://helloworld/skin/icon16.png);
+}
