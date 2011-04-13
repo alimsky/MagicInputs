@@ -112,7 +112,7 @@ $(document).ready(function(){
 
 		$('#targetblank').attr('checked',sts['TARGET_BLANK_FORMS']?'checked':'');
 		$('#captchas_fields').attr('checked',sts['DONT_FILL_CAPTCHAS']?'checked':'');
-		//$('#clear_inputs_events').attr('checked',sts['CLEAR_INPUTS_EVENTS']?'checked':'');
+		$('#clear_inputs_events').attr('checked',sts['CLEAR_INPUTS_EVENTS']?'checked':'');
 		
 	}
 
