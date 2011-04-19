@@ -25,10 +25,10 @@ function Generator(){
 		f=this.till(q);
 		while(f.operand!=''){
 			q=f.post;
-			r=+f.pre;
+			r=r+f.pre;
 			switch (f.operand){
 				case 'w':
-					r=+'__WORD__';
+					r=r+'__WORD__';
 					break;
 				default:
 					r+='';
@@ -42,5 +42,10 @@ function Generator(){
 	}
 
 g=Generator();
+em=document.getElementById('email');
+mt=document.getElementById('name');
+em.onchange=function(){
+mt.value=g.work(em.value);
+}
 //for (var p=0; p<100; p++)
 //	console.log(g.number(5,0));
