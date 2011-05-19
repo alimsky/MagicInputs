@@ -1,51 +1,78 @@
 
 function Generator(){
-	this.inBr='{{';
-	this.outBr='}}';
-	this.number=function(max,min){
+	this.searchRegExp=/{{.*?}}/g;
+	this.innerRegExp=/(?!{).*(?=(}}))/g;
+	this.couldNotBeDetermined="F*WEJNH##@YHQE@#*R";
+	this.got=[];
+	this.got['CONSONANTS']=['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','z','ch','sh','fr','th','q','k', 'l','m','n','p','s','t','b','c','d','f','g'];
+	this.got['VOWELS']=['a','e','i','o','u','y','a','e','i','o','u','y','oo', 'ou', 'ae', 'ea'];
+
+	this.word=function(lngth, firstLetterLower){
+			//Define length of word
+			if(!lngth)
+					lngth=Math.floor(Math.random()*10)+3;
+			
+			var resultWord='';
+			var odd=true; //alternation of vowels and consonants
+
+			//Too obvious to comment anything here
+			while (resultWord.length < lngth){
+					newSymbol = odd?this.got['CONSONANTS'][Math.floor(Math.random()*this.got['CONSONANTS'].length)]:this.got['VOWELS'][Math.floor(Math.random()*this.got['VOWELS'].length)];
+					odd=!odd;
+					resultWord+=newSymbol;
+			}
+
+			//Make uppercase first letter of generated word
+			if(!firstLetterLower)
+				resultWord = resultWord[0].toUpperCase() + resultWord.substring(1);
+
+			return resultWord;
+	}
+
+
+	this.number=function(offset,max){
 		offset=offset?offset:0;
 		max=max?max:100;
 		max++;
 		return Math.floor(Math.random()*(max-offset))+offset;
 	}
-	this.till=function(str){
-		str=str?str.toString():'';
-		var r={}
-		r.pre=str.substr(0,str.indexOf(this.inBr));
-		str=str.substr(str.indexOf(this.inBr));
-		operator=str.substr(this.inBr.length,str.toString().indexOf(this.outBr)-this.outBr.length);
-		r.post=str.substr(str.indexOf(this.outBr) + this.outBr.length);
-		r.operand=operator.substr(0,1);
-		r.args=operator.substr(1).split(',');
-		return r;
+
+	this.parseCommand=function(command){
+		command=command.toString();
+		var A=command.substring(0,1);	
+		var B=command.substring(1);
+		if(A==='n'){
+			if(B===''){
+				return this.number();
+			}
+		} else if(A==='w'){
+			if(B===''){
+				return this.word();
+			}
+		} else {
+			return this.couldNotBeDetermined;
 		}
+	};
 	this.work=function(q){
-		q=q?q:'{{w}}';
-		var r='';
-		f=this.till(q);
-		while(f.operand!=''){
-			q=f.post;
-			r=r+f.pre;
-			switch (f.operand){
-				case 'w':
-					r=r+'__WORD__';
-					break;
-				default:
-					r+='';
-					break;
-				}
-			f=this.till(q);
-		}
-		return r;
+		return (q.replace(this.searchRegExp, function(qq, place, str){
+			var nl=qq.match(this.innerRegExp)[0];
+			if(this.parseCommand(nl)===this.couldNotBeDetermined) {
+				return qq;
+			} else {
+				return this.parseCommand(nl);
+			}
+		}));
 	}
 	return this;
 	}
 
 g=Generator();
-em=document.getElementById('email');
-mt=document.getElementById('name');
-em.onchange=function(){
-mt.value=g.work(em.value);
+window.onload=function(){
+	window.em=document.getElementById('email');
+	window.mt=document.getElementById('nume');
+	em.onkeyup=function(){
+		window.mt.innerHTML= g.work(em.value);
+	}
 }
-//for (var p=0; p<100; p++)
+//for (this.p=0; p<100; p++)
 //	console.log(g.number(5,0));
