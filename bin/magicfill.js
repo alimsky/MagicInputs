@@ -343,6 +343,4 @@ function valueGenerator(){
 		window.vG=new valueGenerator();
 	document.onkeyup=function(e){window.vG.aHotKey(e)};
   });
-
-
 })();
