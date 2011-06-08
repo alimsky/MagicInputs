@@ -14,7 +14,20 @@ textarea {
 }
 </style>
 	
-	<textarea name="email" id="email"></textarea>
-	<textarea name="nume" id="nume"></textarea>
+
+<textarea name="email" id="email"></textarea>
+<textarea name="nume" id="nume"></textarea>
+
+<script type="text/javascript">
+	g=Generator();
+	window.onload=function(){
+		window.em=document.getElementById('email');
+		window.mt=document.getElementById('nume');
+		em.onkeyup=function(){
+			window.mt.innerHTML= g.work(em.value);
+		}
+	}
+</script>
+
 </body>
 </html>
